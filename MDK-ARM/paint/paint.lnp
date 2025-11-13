@@ -1,0 +1,24 @@
+--cpu Cortex-M3
+"paint\startup_stm32f103xb.o"
+"paint\main.o"
+"paint\stm32f1xx_it.o"
+"paint\stm32f1xx_hal_msp.o"
+"paint\stm32f1xx_hal_gpio_ex.o"
+"paint\stm32f1xx_hal_adc.o"
+"paint\stm32f1xx_hal_adc_ex.o"
+"paint\stm32f1xx_hal.o"
+"paint\stm32f1xx_hal_rcc.o"
+"paint\stm32f1xx_hal_rcc_ex.o"
+"paint\stm32f1xx_hal_gpio.o"
+"paint\stm32f1xx_hal_dma.o"
+"paint\stm32f1xx_hal_cortex.o"
+"paint\stm32f1xx_hal_pwr.o"
+"paint\stm32f1xx_hal_flash.o"
+"paint\stm32f1xx_hal_flash_ex.o"
+"paint\stm32f1xx_hal_exti.o"
+"paint\stm32f1xx_hal_uart.o"
+"paint\system_stm32f1xx.o"
+--strict --scatter "paint\paint.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "paint.map" -o paint\paint.axf
