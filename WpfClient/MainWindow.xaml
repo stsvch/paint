@@ -1,0 +1,38 @@
+﻿<Window x:Class="WpfClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfClient"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Picture:" VerticalAlignment="Center" />
+            <TextBox Text="{Binding PictureType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="8,0,0,0" />
+            <TextBlock Text="Selected color:" Margin="16,0,0,0" VerticalAlignment="Center" />
+            <TextBox Text="{Binding SelectedColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120" Margin="8,0,0,0" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,12,0,0">
+            <TextBlock Text="Cursor X:" VerticalAlignment="Center" />
+            <TextBox Text="{Binding CursorX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="80" Margin="8,0,0,0" />
+            <TextBlock Text="Cursor Y:" Margin="16,0,0,0" VerticalAlignment="Center" />
+            <TextBox Text="{Binding CursorY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="80" Margin="8,0,0,0" />
+            <TextBlock Text="Last update:" Margin="16,0,0,0" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding LastUpdate}" VerticalAlignment="Center" Margin="8,0,0,0" />
+            <TextBlock Text="Last render:" Margin="16,0,0,0" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding LastRender}" VerticalAlignment="Center" Margin="8,0,0,0" />
+        </StackPanel>
+
+        <GroupBox Grid.Row="2" Header="Filled figures" Margin="0,12,0,0">
+            <ListBox ItemsSource="{Binding FilledFigures}" />
+        </GroupBox>
+    </Grid>
+</Window>
