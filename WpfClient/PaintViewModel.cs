@@ -220,7 +220,7 @@ public sealed class PaintViewModel : INotifyPropertyChanged
         UpdateFilledFigures(engine.FilledFigures);
     }
 
-    public void UpdateFilledFigures(IDictionary<string, Color> filledFigures)
+    public void UpdateFilledFigures(IReadOnlyDictionary<string, Color> filledFigures)
     {
         _filledFigures.Clear();
         foreach (var (name, color) in filledFigures)
