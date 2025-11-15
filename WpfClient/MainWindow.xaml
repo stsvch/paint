@@ -83,9 +83,9 @@
                 <StackPanel Canvas.Left="32" Canvas.Top="112">
                     <TextBlock Text="Картинка:" FontWeight="SemiBold" FontSize="14" />
                     <TextBlock Text="{Binding PictureDisplayName}" FontSize="20" FontWeight="SemiBold" Margin="0,4,0,12" />
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <Border Width="18" Height="18" Background="{Binding SelectedColorBrush}" CornerRadius="9" />
-                        <TextBlock Text="{Binding SelectedColorName}" FontSize="16" />
+                        <TextBlock Text="{Binding SelectedColorName}" FontSize="16" Margin="8,0,0,0" />
                         <TextBlock Text="({Binding SelectedColorHex})"
                                    FontSize="12" Foreground="#7A859A" Margin="8,2,0,0" />
                     </StackPanel>
