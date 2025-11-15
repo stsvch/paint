@@ -28,7 +28,9 @@ public sealed class PaintEngine
 
     public DrawingDefinition Drawing { get; private set; }
 
-    public IDictionary<string, Color> FilledFigures { get; } = new Dictionary<string, Color>();
+    private readonly Dictionary<string, Color> _filledFigures = new();
+
+    public IReadOnlyDictionary<string, Color> FilledFigures => _filledFigures;
 
     public ImageSource CreateReferenceImage()
     {
@@ -63,17 +65,17 @@ public sealed class PaintEngine
 
     public void FillFigure(string figureName, Color color)
     {
-        FilledFigures[figureName] = color;
+        _filledFigures[figureName] = color;
     }
 
     public bool ClearFigure(string figureName)
     {
-        return FilledFigures.Remove(figureName);
+        return _filledFigures.Remove(figureName);
     }
 
     public void ClearAll()
     {
-        FilledFigures.Clear();
+        _filledFigures.Clear();
     }
 
     public void NextPicture()
