@@ -27,6 +27,10 @@ public sealed class PaintViewModel : INotifyPropertyChanged
     private double _cursorTop;
     private double _cursorInnerLeft;
     private double _cursorInnerTop;
+    private bool _isRecording;
+    private bool _isPlaying;
+    private PaintController? _controller;
+    private double _playbackProgress;
 
     public PaintViewModel()
     {
@@ -206,6 +210,127 @@ public sealed class PaintViewModel : INotifyPropertyChanged
     public bool HasStatusMessage => !string.IsNullOrWhiteSpace(StatusMessage);
 
     public string ConnectionStatus => IsSerialConnected ? "Устройство подключено" : "Ожидание устройства";
+
+    public PaintController? Controller
+    {
+        get => _controller;
+        set
+        {
+            if (SetField(ref _controller, value))
+            {
+                if (value != null)
+                {
+                    UpdateRecordingState();
+                    UpdatePlayingState();
+                }
+            }
+        }
+    }
+
+    public bool IsRecording
+    {
+        get => _isRecording;
+        set
+        {
+            if (SetField(ref _isRecording, value))
+            {
+                if (_controller != null)
+                {
+                    _controller.IsRecording = value;
+                }
+                OnPropertyChanged(nameof(RecordingStatus));
+            }
+        }
+    }
+
+    public bool IsPlaying
+    {
+        get => _isPlaying;
+        set
+        {
+            if (SetField(ref _isPlaying, value))
+            {
+                if (!value && _controller != null)
+                {
+                    _controller.StopPlayback();
+                }
+                OnPropertyChanged(nameof(PlayingStatus));
+                OnPropertyChanged(nameof(IsPaused));
+            }
+        }
+    }
+
+    public bool IsPaused
+    {
+        get => _controller?.IsPaused ?? false;
+    }
+
+    public double PlaybackProgress
+    {
+        get => _playbackProgress;
+        set => SetField(ref _playbackProgress, value);
+    }
+
+    private int _currentActionIndex;
+    private int _totalActions;
+
+    public string PlaybackProgressText
+    {
+        get => _isPlaying ? $"{_playbackProgress:F0}% ({_currentActionIndex}/{_totalActions})" : "";
+    }
+
+    public int CurrentActionIndex
+    {
+        get => _currentActionIndex;
+        set
+        {
+            if (SetField(ref _currentActionIndex, value))
+            {
+                OnPropertyChanged(nameof(PlaybackProgressText));
+            }
+        }
+    }
+
+    public int TotalActions
+    {
+        get => _totalActions;
+        set
+        {
+            if (SetField(ref _totalActions, value))
+            {
+                OnPropertyChanged(nameof(PlaybackProgressText));
+            }
+        }
+    }
+
+    public void NotifyPropertyChanged(string propertyName)
+    {
+        OnPropertyChanged(propertyName);
+    }
+
+    public string RecordingStatus => _isRecording ? "● Запись" : "○ Запись остановлена";
+
+    public string PlayingStatus => _isPlaying ? (_controller?.IsPaused == true ? "⏸ Пауза" : "▶ Воспроизведение") : "▶ Воспроизведение остановлено";
+
+    private void UpdateRecordingState()
+    {
+        if (_controller != null)
+        {
+            _isRecording = _controller.IsRecording;
+            OnPropertyChanged(nameof(IsRecording));
+            OnPropertyChanged(nameof(RecordingStatus));
+        }
+    }
+
+    private void UpdatePlayingState()
+    {
+        if (_controller != null)
+        {
+            _isPlaying = _controller.IsPlaying;
+            OnPropertyChanged(nameof(IsPlaying));
+            OnPropertyChanged(nameof(PlayingStatus));
+        }
+    }
 
     public void UpdatePicture(PaintEngine engine)
     {
