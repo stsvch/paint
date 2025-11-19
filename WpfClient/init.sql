@@ -1,44 +1,83 @@
--- Создание базы данных
-CREATE DATABASE IF NOT EXISTS paintdb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+IF DB_ID(N'paintdb') IS NULL
+BEGIN
+    CREATE DATABASE [paintdb];
+END;
+GO
 
-USE paintdb;
+USE [paintdb];
+GO
 
--- Таблица для сессий рисования
-CREATE TABLE IF NOT EXISTS sessions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    started_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    ended_at DATETIME(3) NULL,
-    drawing_key VARCHAR(50) NOT NULL,
-    INDEX idx_started_at (started_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+IF OBJECT_ID(N'dbo.sessions', N'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.sessions (
+        id INT IDENTITY(1, 1) NOT NULL PRIMARY KEY,
+        started_at DATETIME2(3) NOT NULL CONSTRAINT DF_sessions_started_at DEFAULT SYSUTCDATETIME(),
+        ended_at DATETIME2(3) NULL,
+        drawing_key VARCHAR(50) NOT NULL
+    );
+END;
+GO
 
--- Таблица для действий пользователя
-CREATE TABLE IF NOT EXISTS actions (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    session_id INT NOT NULL,
-    action_type VARCHAR(20) NOT NULL COMMENT 'cursor_move, color_select, fill, clear_figure, next_picture, clear_all',
-    timestamp_ms BIGINT NOT NULL COMMENT 'Время с начала сессии в миллисекундах',
-    occurred_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    cursor_x DOUBLE NULL COMMENT 'Координата X курсора',
-    cursor_y DOUBLE NULL COMMENT 'Координата Y курсора',
-    canvas_x DOUBLE NULL COMMENT 'Координата X на canvas',
-    canvas_y DOUBLE NULL COMMENT 'Координата Y на canvas',
-    color_index INT NULL COMMENT 'Индекс выбранного цвета',
-    color_hex VARCHAR(7) NULL COMMENT 'Hex код цвета',
-    figure_name VARCHAR(100) NULL COMMENT 'Название фигуры (для fill/clear_figure)',
-    button_pressed VARCHAR(1) NULL COMMENT 'Нажатая кнопка (A, B, C, D, E, F)',
-    raw_x INT NULL COMMENT 'Сырое значение X с джойстика',
-    raw_y INT NULL COMMENT 'Сырое значение Y с джойстика',
-    additional_data TEXT NULL COMMENT 'Дополнительные данные в JSON формате',
-    INDEX idx_session_id (session_id),
-    INDEX idx_timestamp_ms (session_id, timestamp_ms),
-    INDEX idx_occurred_at (occurred_at),
-    FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+IF NOT EXISTS (
+        SELECT 1 FROM sys.indexes WHERE name = N'idx_sessions_started_at'
+    )
+BEGIN
+    CREATE INDEX idx_sessions_started_at ON dbo.sessions (started_at);
+END;
+GO
 
--- Создание пользователя для подключения (уже создается через переменные окружения)
-GRANT ALL PRIVILEGES ON paintdb.* TO 'paintuser'@'%';
-FLUSH PRIVILEGES;
+IF OBJECT_ID(N'dbo.actions', N'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.actions (
+        id BIGINT IDENTITY(1, 1) NOT NULL PRIMARY KEY,
+        session_id INT NOT NULL,
+        action_type VARCHAR(20) NOT NULL,
+        timestamp_ms BIGINT NOT NULL,
+        occurred_at DATETIME2(3) NOT NULL CONSTRAINT DF_actions_occurred_at DEFAULT SYSUTCDATETIME(),
+        cursor_x FLOAT NULL,
+        cursor_y FLOAT NULL,
+        canvas_x FLOAT NULL,
+        canvas_y FLOAT NULL,
+        color_index INT NULL,
+        color_hex VARCHAR(7) NULL,
+        figure_name VARCHAR(100) NULL,
+        button_pressed CHAR(1) NULL,
+        raw_x INT NULL,
+        raw_y INT NULL,
+        additional_data NVARCHAR(MAX) NULL,
+        CONSTRAINT FK_actions_sessions FOREIGN KEY (session_id) REFERENCES dbo.sessions (id) ON DELETE CASCADE
+    );
+END;
+GO
+
+IF NOT EXISTS (
+        SELECT 1 FROM sys.indexes WHERE name = N'idx_actions_session_id'
+    )
+BEGIN
+    CREATE INDEX idx_actions_session_id ON dbo.actions (session_id);
+END;
+GO
+
+IF NOT EXISTS (
+        SELECT 1 FROM sys.indexes WHERE name = N'idx_actions_session_timestamp'
+    )
+BEGIN
+    CREATE INDEX idx_actions_session_timestamp ON dbo.actions (session_id, timestamp_ms);
+END;
+GO
+
+IF NOT EXISTS (
+        SELECT 1 FROM sys.indexes WHERE name = N'idx_actions_occurred_at'
+    )
+BEGIN
+    CREATE INDEX idx_actions_occurred_at ON dbo.actions (occurred_at);
+END;
+GO
+
+IF DB_ID(N'paintdb') IS NOT NULL AND SUSER_ID(N'paintuser') IS NOT NULL
+BEGIN
+    EXEC ('USE [paintdb]; GRANT CONTROL, ALTER, DELETE, EXECUTE, INSERT, REFERENCES, SELECT, UPDATE ON DATABASE::[paintdb] TO [paintuser];');
+END;
 
 
 

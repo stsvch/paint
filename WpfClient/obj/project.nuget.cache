@@ -2,7 +2,7 @@
   "version": 2,
   "dgSpecHash": "1ZWYN76G7ok=",
   "success": true,
-  "projectFilePath": "D:\\7semestr\\povs\\lab4\\paint\\WpfClient\\WpfClient.csproj",
+  "projectFilePath": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\WpfClient.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sanch\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.2\\microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
     "C:\\Users\\sanch\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.2\\microsoft.extensions.logging.abstractions.8.0.2.nupkg.sha512",
