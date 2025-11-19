@@ -132,4 +132,15 @@ public partial class MainWindow : Window
             viewModel.IsPlaying = false;
         }
     }
+
+    private void OnJoystickModeToggle(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is PaintViewModel viewModel)
+        {
+            // Переключаем режим между Absolute и Centered
+            viewModel.JoystickMode = viewModel.JoystickMode == JoystickMode.Absolute 
+                ? JoystickMode.Centered 
+                : JoystickMode.Absolute;
+        }
+    }
 }

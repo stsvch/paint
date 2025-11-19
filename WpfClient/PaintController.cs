@@ -22,6 +22,7 @@ public sealed class PaintController : IDisposable
     private readonly CancellationTokenSource _cancellation = new();
     private readonly ActionRecorder? _recorder;
     private readonly Demo? _playback;
+    private readonly JoystickModeHandler _joystickModeHandler;
     private bool _isRecording;
     private bool _isPlaying;
     private string? _previousDrawingKey;
@@ -34,6 +35,10 @@ public sealed class PaintController : IDisposable
         _viewModel = viewModel;
         _engine = engine;
         _dispatcher = Application.Current.Dispatcher;
+
+        var centerX = AppConfig.CanvasLeft + AppConfig.CanvasWidth / 2.0;
+        var centerY = AppConfig.CanvasTop + AppConfig.CanvasHeight / 2.0;
+        _joystickModeHandler = new JoystickModeHandler(centerX, centerY);
 
         if (enableDatabase)
         {
@@ -307,8 +312,10 @@ public sealed class PaintController : IDisposable
                 var rawX = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
                 var rawY = int.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture);
 
-                var normalizedX = NormalizeJoystickX(rawX);
-                var normalizedY = NormalizeJoystickY(rawY);
+                // Используем обработчик режимов для нормализации
+                // В центрированном режиме нормализация автоматически вернет центр, если джойстик в dead zone
+                var normalizedX = _joystickModeHandler.NormalizeX(rawX, _viewModel.CursorX);
+                var normalizedY = _joystickModeHandler.NormalizeY(rawY, _viewModel.CursorY);
 
                 _viewModel.UpdateCursor(normalizedX, normalizedY);
 
@@ -478,44 +485,16 @@ public sealed class PaintController : IDisposable
         return true;
     }
 
-    private double NormalizeJoystickX(int rawValue)
+    public void SetJoystickMode(JoystickMode mode)
     {
-        var current = _viewModel.CursorX;
-        if (Math.Abs(rawValue - AppConfig.JoyXCenter) < AppConfig.JoyDeadZone)
+        _joystickModeHandler.Mode = mode;
+        
+        // При переключении в центрированный режим возвращаем курсор в центр
+        if (mode == JoystickMode.Centered)
         {
-            return current;
+            var (centerX, centerY) = _joystickModeHandler.GetCenter();
+            ResetCursor();
         }
-
-        if (rawValue < AppConfig.JoyXCenter)
-        {
-            var delta = AppConfig.JoyXCenter - rawValue;
-            var speed = Math.Min(delta / AppConfig.JoySpeedDivider, AppConfig.JoyMaxSpeed);
-            return Math.Max(0, current - speed);
-        }
-
-        var deltaRight = rawValue - AppConfig.JoyXCenter;
-        var speedRight = Math.Min(deltaRight / AppConfig.JoySpeedDivider, AppConfig.JoyMaxSpeed);
-        return Math.Min(AppConfig.ScreenWidth - 1, current + speedRight);
-    }
-
-    private double NormalizeJoystickY(int rawValue)
-    {
-        var current = _viewModel.CursorY;
-        if (Math.Abs(rawValue - AppConfig.JoyYCenter) < AppConfig.JoyDeadZone)
-        {
-            return current;
-        }
-
-        if (rawValue < AppConfig.JoyYCenter)
-        {
-            var delta = AppConfig.JoyYCenter - rawValue;
-            var speed = Math.Min(delta / AppConfig.JoySpeedDivider, AppConfig.JoyMaxSpeed);
-            return Math.Min(AppConfig.ScreenHeight - 1, current + speed);
-        }
-
-        var deltaDown = rawValue - AppConfig.JoyYCenter;
-        var speedDown = Math.Min(deltaDown / AppConfig.JoySpeedDivider, AppConfig.JoyMaxSpeed);
-        return Math.Max(0, current - speedDown);
     }
 
     private static int? GetColorIndexAt(double x, double y)
