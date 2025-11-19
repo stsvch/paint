@@ -2,16 +2,19 @@ namespace WpfClient;
 
 public static class AppConfig
 {
-    public const int ScreenWidth = 1000;
-    public const int ScreenHeight = 700;
-    public const int CanvasWidth = 600;
-    public const int CanvasHeight = 600;
-    public const int ReferenceSize = 200;
+    // Используем double для параметров, к которым напрямую привязывается XAML.
+    // Это избавляет от ошибок преобразования типов при установке Width/Height
+    // во время инициализации окна.
+    public const double ScreenWidth = 1000.0;
+    public const double ScreenHeight = 700.0;
+    public const double CanvasWidth = 600.0;
+    public const double CanvasHeight = 600.0;
+    public const double ReferenceSize = 200.0;
     public const int ColorPanelColumns = 2;
-    public const int ColorCellSize = 56;
-    public const int ColorCellSpacing = 12;
-    public const int ColorPanelX = ScreenWidth - 264;
-    public const int ColorPanelY = 302;
+    public const double ColorCellSize = 56.0;
+    public const double ColorCellSpacing = 12.0;
+    public const double ColorPanelX = ScreenWidth - 264;
+    public const double ColorPanelY = 302;
 
     public const int BaudRate = 115200;
 
@@ -25,6 +28,6 @@ public static class AppConfig
     public const double JoySpeedDivider = 100.0;
     public const double JoyMaxSpeed = 10.0;
 
-    public static readonly int CanvasLeft = (ScreenWidth - CanvasWidth) / 2;
-    public static readonly int CanvasTop = (ScreenHeight - CanvasHeight) / 2;
+    public static readonly double CanvasLeft = (ScreenWidth - CanvasWidth) / 2;
+    public static readonly double CanvasTop = (ScreenHeight - CanvasHeight) / 2;
 }
