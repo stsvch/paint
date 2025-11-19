@@ -23,8 +23,10 @@ internal sealed class StartupDiagnostics
 
     public string LogFilePath => _logFile;
 
-    public void WriteStartupInfo()
+    public string WriteStartupInfo()
     {
+        var runtimes = CaptureDotnetRuntimes();
+
         var sb = new StringBuilder();
         sb.AppendLine($"Timestamp: {DateTimeOffset.Now:O}");
         sb.AppendLine($"OS: {RuntimeInformation.OSDescription} ({RuntimeInformation.OSArchitecture})");
@@ -32,9 +34,11 @@ internal sealed class StartupDiagnostics
         sb.AppendLine($"Framework: {RuntimeInformation.FrameworkDescription}");
         sb.AppendLine($"Runtime identifier: {RuntimeInformation.RuntimeIdentifier}");
         sb.AppendLine("Runtimes reported by `dotnet --list-runtimes`:");
-        sb.AppendLine(CaptureDotnetRuntimes());
+        sb.AppendLine(runtimes);
 
         File.WriteAllText(_logFile, sb.ToString());
+
+        return runtimes;
     }
 
     public void LogException(Exception ex, string context)
@@ -44,6 +48,37 @@ internal sealed class StartupDiagnostics
         sb.AppendLine($"[{DateTimeOffset.Now:O}] {context}");
         sb.AppendLine(ex.ToString());
         File.AppendAllText(_logFile, sb.ToString());
+    }
+
+    public void LogMessage(string message)
+    {
+        File.AppendAllText(
+            _logFile,
+            $"[{DateTimeOffset.Now:O}] {message}{Environment.NewLine}");
+    }
+
+    public bool HasSupportedWindowsDesktopRuntime(string runtimesOutput)
+    {
+        foreach (var line in runtimesOutput.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (!line.Contains("Microsoft.WindowsDesktop.App", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            var parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length < 2 || !Version.TryParse(parts[1], out var version))
+            {
+                continue;
+            }
+
+            if (version.Major >= 8)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static string CaptureDotnetRuntimes()
