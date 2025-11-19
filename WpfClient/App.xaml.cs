@@ -39,13 +39,30 @@ public partial class App : Application
             Shutdown(-1);
         };
 
+        StartupDiagnostics? diagnostics = null;
+        string? runtimes = null;
+
+        try
+        {
+            diagnostics = _diagnostics = new StartupDiagnostics();
+            runtimes = _diagnostics.WriteStartupInfo();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                "Не удалось инициализировать сбор диагностической информации. Приложение будет закрыто.\n\n" +
+                ex.Message,
+                "Ошибка запуска",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+            Shutdown(-1);
+            return;
+        }
+
         try
         {
             base.OnStartup(e);
             InitializeComponent();
-
-            _diagnostics = new StartupDiagnostics();
-            var runtimes = _diagnostics.WriteStartupInfo();
 
             if (!_diagnostics.HasSupportedWindowsDesktopRuntime(runtimes))
             {
@@ -55,7 +72,11 @@ public partial class App : Application
                     "Вывод `dotnet --list-runtimes`:\n";
 
                 _diagnostics.LogMessage("Windows Desktop Runtime не обнаружен");
-                MessageBox.Show(message + runtimes, "Отсутствует Desktop Runtime", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(
+                    message + runtimes + $"\n\nПолный лог: {diagnostics.LogFilePath}",
+                    "Отсутствует Desktop Runtime",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
                 Shutdown(-1);
                 return;
             }
@@ -94,7 +115,7 @@ public partial class App : Application
                 "Приложение не удалось запустить.\n\n" +
                 ex.Message +
                 "\n\nУбедитесь, что установлен .NET Desktop Runtime (Microsoft.WindowsDesktop.App 8.0 или новее)." +
-                ( _diagnostics is not null
+                (_diagnostics is not null
                     ? $" Подробности в логе: {_diagnostics.LogFilePath}"
                     : string.Empty),
                 "Ошибка запуска",
