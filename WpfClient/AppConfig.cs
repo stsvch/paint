@@ -1,6 +1,6 @@
 namespace WpfClient;
 
-internal static class AppConfig
+public static class AppConfig
 {
     public const int ScreenWidth = 1000;
     public const int ScreenHeight = 700;
