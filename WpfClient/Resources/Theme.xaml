@@ -64,7 +64,7 @@
     <!-- Palette -->
     <Style x:Key="PaletteItemContainerStyle" TargetType="ListBoxItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Margin" Value="0,0,12,12" />
+        <Setter Property="Margin" Value="0,0,8,8" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -72,8 +72,8 @@
     </Style>
 
     <DataTemplate x:Key="PaletteItemTemplate">
-        <Border Height="40"
-                Width="40"
+        <Border Height="48"
+                Width="48"
                 Background="{Binding Brush}"
                 CornerRadius="8"
                 ToolTip="{Binding Name}"

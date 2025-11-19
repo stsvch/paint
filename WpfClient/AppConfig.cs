@@ -7,7 +7,11 @@ internal static class AppConfig
     public const int CanvasWidth = 600;
     public const int CanvasHeight = 600;
     public const int ReferenceSize = 200;
-    public const int ColorPanelX = ScreenWidth - 100;
+    public const int ColorPanelColumns = 2;
+    public const int ColorCellSize = 56;
+    public const int ColorCellSpacing = 12;
+    public const int ColorPanelX = ScreenWidth - 264;
+    public const int ColorPanelY = 302;
 
     public const int BaudRate = 115200;
 

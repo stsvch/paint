@@ -499,25 +499,43 @@ public sealed class PaintController : IDisposable
 
     private static int? GetColorIndexAt(double x, double y)
     {
-        const int panelStartY = 250;
-        const int colorSize = 40;
-        const int colorSpacing = 10;
+        var startX = AppConfig.ColorPanelX;
+        var startY = AppConfig.ColorPanelY;
+        var size = AppConfig.ColorCellSize;
+        var spacing = AppConfig.ColorCellSpacing;
+        var columns = AppConfig.ColorPanelColumns;
+        var rows = (int)Math.Ceiling(ColorPalette.Default.Count / (double)columns);
 
-        if (x < AppConfig.ColorPanelX || x > AppConfig.ScreenWidth - 20)
+        var panelWidth = columns * size + (columns - 1) * spacing;
+        var panelHeight = rows * size + (rows - 1) * spacing;
+
+        if (x < startX || x > startX + panelWidth ||
+            y < startY || y > startY + panelHeight)
         {
             return null;
         }
 
-        for (var i = 0; i < ColorPalette.Default.Count; i++)
+        var relativeX = x - startX;
+        var relativeY = y - startY;
+
+        var column = (int)(relativeX / (size + spacing));
+        var row = (int)(relativeY / (size + spacing));
+
+        if (column >= columns || row >= rows)
         {
-            var colorY = panelStartY + i * (colorSize + colorSpacing);
-            if (y >= colorY && y <= colorY + colorSize)
-            {
-                return i;
-            }
+            return null;
         }
 
-        return null;
+        var cellX = column * (size + spacing);
+        var cellY = row * (size + spacing);
+
+        if (relativeX > cellX + size || relativeY > cellY + size)
+        {
+            return null;
+        }
+
+        var index = row * columns + column;
+        return index < ColorPalette.Default.Count ? index : null;
     }
 
     public async Task StartPlaybackAsync(int sessionId)
