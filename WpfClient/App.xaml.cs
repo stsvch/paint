@@ -9,6 +9,7 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+        InitializeComponent();
 
         var viewModel = new PaintViewModel();
         var engine = new PaintEngine();
@@ -19,6 +20,8 @@ public partial class App : Application
         {
             DataContext = viewModel
         };
+
+        MainWindow = window;
 
         window.Closed += (_, _) => _controller?.Dispose();
         window.Show();
