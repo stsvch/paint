@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\USER\Desktop\paint\WpfClient\obj\Debug\net8.0-windows\
+C:\Users\USER\Desktop\7\paint\WpfClient\obj\Debug\net8.0-windows\
 WpfClient
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\Users\USER\Desktop\paint\WpfClient\App.xaml
-11407045341
+C:\Users\USER\Desktop\7\paint\WpfClient\App.xaml
+3571752505
 
-8-835025700
-198155382431
-MainWindow.xaml;
+192002066586
+202-47648783
+MainWindow.xaml;PlaybackDialog.xaml;Resources\Theme.xaml;
 
 False
 
