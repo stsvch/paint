@@ -1,12 +1,14 @@
 using System;
 using System.Windows;
 using System.Windows.Media;
+using WpfClient.Diagnostics;
 
 namespace WpfClient;
 
 public partial class App : Application
 {
     private PaintController? _controller;
+    private StartupDiagnostics? _diagnostics;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -17,10 +19,33 @@ public partial class App : Application
         // чтобы приложение не падало молча.
         RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
+        AppDomain.CurrentDomain.UnhandledException += (_, args) =>
+        {
+            if (args.ExceptionObject is Exception ex)
+            {
+                _diagnostics?.LogException(ex, "Необработанное исключение AppDomain");
+            }
+        };
+
+        DispatcherUnhandledException += (_, args) =>
+        {
+            _diagnostics?.LogException(args.Exception, "Необработанное исключение диспетчера");
+            MessageBox.Show(
+                $"Произошла ошибка: {args.Exception.Message}\n\nПолный лог: {_diagnostics?.LogFilePath}",
+                "Ошибка",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+            args.Handled = true;
+            Shutdown(-1);
+        };
+
         try
         {
             base.OnStartup(e);
             InitializeComponent();
+
+            _diagnostics = new StartupDiagnostics();
+            _diagnostics.WriteStartupInfo();
 
             var viewModel = new PaintViewModel();
             var engine = new PaintEngine();
@@ -41,9 +66,25 @@ public partial class App : Application
         }
         catch (TypeInitializationException ex) when (ex.TypeName == typeof(Fonts).FullName)
         {
+            _diagnostics?.LogException(ex, "Ошибка инициализации подсистемы шрифтов");
             MessageBox.Show(
                 "Не удалось инициализировать подсистему шрифтов. Перезапустите службу \"Windows Presentation Foundation Font Cache 3.0.0.0\" и удалите файлы FontCache в %LOCALAPPDATA%. Приложение будет закрыто.",
                 "Ошибка инициализации шрифтов",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+            Shutdown(-1);
+        }
+        catch (Exception ex)
+        {
+            _diagnostics?.LogException(ex, "Ошибка запуска приложения");
+            MessageBox.Show(
+                "Приложение не удалось запустить.\n\n" +
+                ex.Message +
+                "\n\nУбедитесь, что установлен .NET Desktop Runtime (Microsoft.WindowsDesktop.App 8.0 или новее)." +
+                ( _diagnostics is not null
+                    ? $" Подробности в логе: {_diagnostics.LogFilePath}"
+                    : string.Empty),
+                "Ошибка запуска",
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
             Shutdown(-1);
