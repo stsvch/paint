@@ -13,6 +13,7 @@ public partial class App : Application
         var viewModel = new PaintViewModel();
         var engine = new PaintEngine();
         _controller = new PaintController(viewModel, engine);
+        viewModel.Controller = _controller;
 
         var window = new MainWindow
         {

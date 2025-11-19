@@ -1,0 +1,35 @@
+# Build results
+bin/
+obj/
+
+# User-specific Visual Studio / Rider files
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Temporary / backup files
+*~
+*.tmp
+*.temp
+*.log
+
+# NuGet
+*.nupkg
+packages/
+*.snupkg
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
+
+# Rider / ReSharper caches
+_ReSharper*/
+*.DotSettings.user
+
+# Dotnet tooling
+.ionide/
+
+
