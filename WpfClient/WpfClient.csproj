@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
     <RollForward>LatestMajor</RollForward>
     <LangVersion>12.0</LangVersion>
     <Nullable>enable</Nullable>
