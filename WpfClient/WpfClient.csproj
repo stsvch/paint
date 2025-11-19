@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows10.0.17763.0</TargetFramework>
-    <RollForward>LatestMajor</RollForward>
+    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
     <LangVersion>12.0</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -11,7 +10,7 @@
   </PropertyGroup>
 
   <Target Name="CheckWindowsDesktopRuntime" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
-    <Exec Command="powershell -NoProfile -Command &quot;$runtimes = dotnet --list-runtimes; $match = $runtimes | Select-String -Pattern 'Microsoft.WindowsDesktop.App\\s+([0-9]+)' | Select-Object -First 1; if ($null -eq $match -or [int]$match.Matches[0].Groups[1].Value -lt 10) { Write-Error 'Не найден Microsoft.WindowsDesktop.App версии 10.0 или новее. Установите .NET Desktop Runtime x64 (10.0+) с https://dotnet.microsoft.com/en-us/download/dotnet/10.0'; exit 1 }&quot;" IgnoreExitCode="true" ConsoleToMSBuild="true">
+    <Exec Command="powershell -NoProfile -Command &quot;$runtimes = dotnet --list-runtimes; $match = $runtimes | Select-String -Pattern 'Microsoft.WindowsDesktop.App\\s+([0-9]+)' | Select-Object -First 1; if ($null -eq $match -or [int]$match.Matches[0].Groups[1].Value -lt 8) { Write-Error 'Не найден Microsoft.WindowsDesktop.App версии 8.0 или новее. Установите .NET Desktop Runtime x64 (8.0+) с https://dotnet.microsoft.com/en-us/download/dotnet/8.0'; exit 1 }&quot;" IgnoreExitCode="true" ConsoleToMSBuild="true">
       <Output TaskParameter="ExitCode" PropertyName="DesktopRuntimeExitCode" />
       <Output TaskParameter="ConsoleOutput" PropertyName="DesktopRuntimeOutput" />
     </Exec>
