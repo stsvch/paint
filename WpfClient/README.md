@@ -19,6 +19,8 @@
   - `System.IO.Ports` (v8.0.0) - для работы с последовательным портом
   - `MySqlConnector` (v2.4.0) - для подключения к MySQL
 
+> ⚠️ Для запуска требуется **.NET Desktop Runtime** (Windows Desktop), а не только обычный .NET Runtime. Если установлен только .NET 10 Runtime без Desktop-компонента, приложение не запустится. Проверьте наличие `Microsoft.WindowsDesktop.App` в выводе `dotnet --list-runtimes` и при необходимости установите Desktop Runtime (8.0 или новее).
+
 #### `docker-compose.yml`
 Конфигурация Docker Compose для запуска MySQL базы данных:
 - Образ: MySQL 8.0.36
