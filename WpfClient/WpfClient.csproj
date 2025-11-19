@@ -18,7 +18,7 @@
     </Exec>
 
     <Message Importance="High" Text="Проверка Desktop Runtime: $(DesktopRuntimeOutput)" Condition="'$(DesktopRuntimeOutput)' != ''" />
-    <Error Condition="'$(DesktopRuntimeExitCode)' != '0'" Text="Не найден .NET Desktop Runtime (Microsoft.WindowsDesktop.App $(DesktopRuntimeVersion)+). Установите Desktop Runtime x64 с https://dotnet.microsoft.com/en-us/download/dotnet/8.0" />
+    <Warning Condition="'$(DesktopRuntimeExitCode)' != '0'" Text="Не найден .NET Desktop Runtime (Microsoft.WindowsDesktop.App $(DesktopRuntimeVersion)+). Установите Desktop Runtime x64 с https://dotnet.microsoft.com/en-us/download/dotnet/8.0" />
   </Target>
 
   <ItemGroup>
