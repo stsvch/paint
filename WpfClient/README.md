@@ -12,7 +12,9 @@
 
 #### `WpfClient.csproj`
 Файл проекта .NET. Содержит настройки сборки:
+- Sdk: `Microsoft.NET.Sdk.WindowsDesktop` (поддержка WPF и Windows Desktop Runtime из коробки)
 - Целевой фреймворк: `.NET 8.0 (Windows)` с поддержкой отката на более новые рантаймы через `RollForward=LatestMajor`
+- Поддерживаемая версия Windows: `10.0.17763.0` и выше
 - Язык: C# 13.0
 - Тип проекта: WPF приложение (WinExe)
 - Зависимости:
