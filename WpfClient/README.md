@@ -12,14 +12,16 @@
 
 #### `WpfClient.csproj`
 Файл проекта .NET. Содержит настройки сборки:
+- Sdk: `Microsoft.NET.Sdk.WindowsDesktop` (поддержка WPF и Windows Desktop Runtime из коробки)
 - Целевой фреймворк: `.NET 8.0 (Windows)` с поддержкой отката на более новые рантаймы через `RollForward=LatestMajor`
+- Поддерживаемая версия Windows: `10.0.17763.0` и выше
 - Язык: C# 13.0
 - Тип проекта: WPF приложение (WinExe)
 - Зависимости:
   - `System.IO.Ports` (v8.0.0) - для работы с последовательным портом
   - `MySqlConnector` (v2.4.0) - для подключения к MySQL
 
-> ⚠️ Для запуска требуется **.NET Desktop Runtime** (Windows Desktop), а не только обычный .NET Runtime. Если установлен только .NET 10 Runtime без Desktop-компонента, приложение не запустится. Проверьте наличие `Microsoft.WindowsDesktop.App` в выводе `dotnet --list-runtimes` и при необходимости установите Desktop Runtime (8.0 или новее).
+> ⚠️ Для запуска требуется **.NET Desktop Runtime** (Windows Desktop), а не только обычный .NET Runtime. Если установлен только .NET 10 Runtime без Desktop-компонента, приложение не запустится. Проверьте наличие `Microsoft.WindowsDesktop.App` в выводе `dotnet --list-runtimes` и при необходимости установите Desktop Runtime (8.0 или новее). Во время сборки теперь добавлена автоматическая проверка: если Desktop Runtime 8.0+ не найден, сборка завершится ошибкой с подсказкой по установке.
 
 > ℹ️ При старте приложение дополнительно проверяет наличие **Microsoft.WindowsDesktop.App** версии 8.0+ и, если её нет, завершится с понятным сообщением и приложит вывод `dotnet --list-runtimes`.
 
