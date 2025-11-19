@@ -45,7 +45,20 @@ public partial class App : Application
             InitializeComponent();
 
             _diagnostics = new StartupDiagnostics();
-            _diagnostics.WriteStartupInfo();
+            var runtimes = _diagnostics.WriteStartupInfo();
+
+            if (!_diagnostics.HasSupportedWindowsDesktopRuntime(runtimes))
+            {
+                const string message =
+                    "Не найден .NET Desktop Runtime (Microsoft.WindowsDesktop.App 8.0 или новее).\n" +
+                    "Установите Desktop Runtime x64 с официального сайта https://dotnet.microsoft.com/en-us/download/dotnet/8.0.\n\n" +
+                    "Вывод `dotnet --list-runtimes`:\n";
+
+                _diagnostics.LogMessage("Windows Desktop Runtime не обнаружен");
+                MessageBox.Show(message + runtimes, "Отсутствует Desktop Runtime", MessageBoxButton.OK, MessageBoxImage.Error);
+                Shutdown(-1);
+                return;
+            }
 
             var viewModel = new PaintViewModel();
             var engine = new PaintEngine();
