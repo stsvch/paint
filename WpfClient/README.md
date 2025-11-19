@@ -12,12 +12,14 @@
 
 #### `WpfClient.csproj`
 Файл проекта .NET. Содержит настройки сборки:
-- Целевой фреймворк: `.NET 9.0`
+- Целевой фреймворк: `.NET 8.0 (Windows)` с поддержкой отката на более новые рантаймы через `RollForward=LatestMajor`
 - Язык: C# 13.0
 - Тип проекта: WPF приложение (WinExe)
 - Зависимости:
   - `System.IO.Ports` (v8.0.0) - для работы с последовательным портом
   - `MySqlConnector` (v2.4.0) - для подключения к MySQL
+
+> ⚠️ Для запуска требуется **.NET Desktop Runtime** (Windows Desktop), а не только обычный .NET Runtime. Если установлен только .NET 10 Runtime без Desktop-компонента, приложение не запустится. Проверьте наличие `Microsoft.WindowsDesktop.App` в выводе `dotnet --list-runtimes` и при необходимости установите Desktop Runtime (8.0 или новее).
 
 #### `docker-compose.yml`
 Конфигурация Docker Compose для запуска MySQL базы данных:
@@ -264,7 +266,7 @@ ViewModel в паттерне MVVM. Связывает UI с бизнес-лог
 ## Установка и запуск
 
 ### Требования
-- .NET 9.0 SDK
+- .NET 8.0 SDK (или более новый .NET рантайм благодаря `RollForward=LatestMajor`)
 - Docker Desktop (для MySQL)
 - Джойстик, подключенный через последовательный порт (опционально)
 
