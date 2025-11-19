@@ -31,6 +31,7 @@ public sealed class PaintViewModel : INotifyPropertyChanged
     private bool _isPlaying;
     private PaintController? _controller;
     private double _playbackProgress;
+    private JoystickMode _joystickMode = JoystickMode.Absolute;
 
     public PaintViewModel()
     {
@@ -311,6 +312,26 @@ public sealed class PaintViewModel : INotifyPropertyChanged
     public string RecordingStatus => _isRecording ? "● Запись" : "○ Запись остановлена";
 
     public string PlayingStatus => _isPlaying ? (_controller?.IsPaused == true ? "⏸ Пауза" : "▶ Воспроизведение") : "▶ Воспроизведение остановлено";
+
+    public JoystickMode JoystickMode
+    {
+        get => _joystickMode;
+        set
+        {
+            if (SetField(ref _joystickMode, value))
+            {
+                _controller?.SetJoystickMode(value);
+                OnPropertyChanged(nameof(JoystickModeText));
+            }
+        }
+    }
+
+    public string JoystickModeText => _joystickMode switch
+    {
+        JoystickMode.Absolute => "Режим: Абсолютный",
+        JoystickMode.Centered => "Режим: Центрированный",
+        _ => "Режим: Неизвестен"
+    };
 
     private void UpdateRecordingState()
     {
