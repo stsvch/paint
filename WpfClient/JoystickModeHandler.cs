@@ -64,7 +64,8 @@ public sealed class JoystickModeHandler
 
         var deltaRight = rawValue - AppConfig.JoyXCenter;
         var speedRight = Math.Min(deltaRight / AppConfig.JoySpeedDivider, AppConfig.JoyMaxSpeed);
-        return Math.Min(AppConfig.ScreenWidth - 1, current + speedRight);
+        // Используем логические координаты холста (0-600)
+        return Math.Min(AppConfig.CanvasWidth - 1, current + speedRight);
     }
 
     private double NormalizeAbsoluteY(int rawValue, double current)
@@ -78,7 +79,8 @@ public sealed class JoystickModeHandler
         {
             var delta = AppConfig.JoyYCenter - rawValue;
             var speed = Math.Min(delta / AppConfig.JoySpeedDivider, AppConfig.JoyMaxSpeed);
-            return Math.Min(AppConfig.ScreenHeight - 1, current + speed);
+            // Используем логические координаты холста (0-600)
+            return Math.Min(AppConfig.CanvasHeight - 1, current + speed);
         }
 
         var deltaDown = rawValue - AppConfig.JoyYCenter;
@@ -99,11 +101,12 @@ public sealed class JoystickModeHandler
         normalized = Math.Clamp(normalized, -1.0, 1.0);
 
         const double speedFactor = 1;
-        var maxScreenOffset = (AppConfig.ScreenWidth / 2.0) * speedFactor;
+        // Используем логические координаты холста (0-600)
+        var maxScreenOffset = (AppConfig.CanvasWidth / 2.0) * speedFactor;
         var cursorOffset = normalized * maxScreenOffset;
         var newX = _centerX + cursorOffset;
 
-        return Math.Clamp(newX, 0, AppConfig.ScreenWidth - 1);
+        return Math.Clamp(newX, 0, AppConfig.CanvasWidth - 1);
     }
 
     private double NormalizeCenteredY(int rawValue)
@@ -119,10 +122,11 @@ public sealed class JoystickModeHandler
         normalized = Math.Clamp(normalized, -1.0, 1.0);
 
         const double speedFactor = 1;
-        var maxScreenOffset = (AppConfig.ScreenHeight / 2.0) * speedFactor;
+        // Используем логические координаты холста (0-600)
+        var maxScreenOffset = (AppConfig.CanvasHeight / 2.0) * speedFactor;
         var cursorOffset = -normalized * maxScreenOffset;
         var newY = _centerY + cursorOffset;
 
-        return Math.Clamp(newY, 0, AppConfig.ScreenHeight - 1);
+        return Math.Clamp(newY, 0, AppConfig.CanvasHeight - 1);
     }
 }

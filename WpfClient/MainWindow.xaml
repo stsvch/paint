@@ -60,42 +60,43 @@
                     </StackPanel>
 
                     <!-- ЦЕНТР: холст + курсор -->
-                    <!-- ЦЕНТР: холст + курсор -->
-                    <Grid Grid.Column="1" Margin="24,0">
-
+                    <Grid Grid.Column="1" Margin="24,0" ClipToBounds="True">
                         <!-- Viewbox уменьшает холст, если места мало,
          но не растягивает больше исходного размера -->
                         <Viewbox Stretch="Uniform"
-             StretchDirection="DownOnly"
-             HorizontalAlignment="Center"
-             VerticalAlignment="Center">
+                                 StretchDirection="DownOnly"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Name="CanvasViewbox">
 
-                            <!-- Внутри остаётся тот же “логический” размер холста -->
+                            <!-- Внутри остаётся тот же "логический" размер холста -->
                             <Border Width="{x:Static local:AppConfig.CanvasWidth}"
-                Height="{x:Static local:AppConfig.CanvasHeight}"
-                CornerRadius="32"
-                Background="#FBFCFF"
-                BorderBrush="#D5DFF1"
-                BorderThickness="2"
-                Effect="{StaticResource SoftShadow}">
-                                <Grid>
+                                    Height="{x:Static local:AppConfig.CanvasHeight}"
+                                    CornerRadius="32"
+                                    Background="#FBFCFF"
+                                    BorderBrush="#D5DFF1"
+                                    BorderThickness="2"
+                                    Effect="{StaticResource SoftShadow}">
+                                <Grid ClipToBounds="True">
                                     <Image Source="{Binding CanvasImage}"
-                       Stretch="Fill" />
+                                           Stretch="Fill" />
 
                                     <!-- Курсор поверх изображения -->
-                                    <Canvas IsHitTestVisible="False">
+                                    <Canvas IsHitTestVisible="False" 
+                                            Panel.ZIndex="1000"
+                                            ClipToBounds="True">
                                         <Ellipse Width="{Binding CursorDiameter}"
-                             Height="{Binding CursorDiameter}"
-                             Stroke="{StaticResource AccentBrush}"
-                             StrokeThickness="2"
-                             Canvas.Left="{Binding CursorLeft}"
-                             Canvas.Top="{Binding CursorTop}"
-                             Fill="{x:Null}" />
+                                                 Height="{Binding CursorDiameter}"
+                                                 Stroke="{StaticResource AccentBrush}"
+                                                 StrokeThickness="2"
+                                                 Canvas.Left="{Binding CursorLeft}"
+                                                 Canvas.Top="{Binding CursorTop}"
+                                                 Fill="{x:Null}" />
                                         <Ellipse Width="4"
-                             Height="4"
-                             Fill="{StaticResource AccentBrush}"
-                             Canvas.Left="{Binding CursorInnerLeft}"
-                             Canvas.Top="{Binding CursorInnerTop}" />
+                                                 Height="4"
+                                                 Fill="{StaticResource AccentBrush}"
+                                                 Canvas.Left="{Binding CursorInnerLeft}"
+                                                 Canvas.Top="{Binding CursorInnerTop}" />
                                     </Canvas>
                                 </Grid>
                             </Border>

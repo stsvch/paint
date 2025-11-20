@@ -36,8 +36,9 @@ public sealed class PaintController : IDisposable
         _engine = engine;
         _dispatcher = Application.Current.Dispatcher;
 
-        var centerX = AppConfig.CanvasLeft + AppConfig.CanvasWidth / 2.0;
-        var centerY = AppConfig.CanvasTop + AppConfig.CanvasHeight / 2.0;
+        // Используем логические координаты холста (0-600)
+        var centerX = AppConfig.CanvasWidth / 2.0;
+        var centerY = AppConfig.CanvasHeight / 2.0;
         _joystickModeHandler = new JoystickModeHandler(centerX, centerY);
 
         if (enableDatabase)
@@ -353,20 +354,16 @@ public sealed class PaintController : IDisposable
 
     private void HandleColorSelection()
     {
-        var index = GetColorIndexAt(_viewModel.CursorX, _viewModel.CursorY);
-        if (index is null)
-        {
-            _viewModel.StatusMessage = "Наведите курсор на палитру цветов";
-            return;
-        }
-
-        _viewModel.SelectedColorIndex = index.Value;
-        _viewModel.StatusMessage = $"Выбран цвет #{index.Value}: {_viewModel.SelectedColorName}";
+        // Циклический перебор цветов (так как палитра теперь в ListBox и курсор работает только на холсте)
+        var currentIndex = _viewModel.SelectedColorIndex;
+        var nextIndex = (currentIndex + 1) % _viewModel.Palette.Count;
+        _viewModel.SelectedColorIndex = nextIndex;
+        _viewModel.StatusMessage = $"Выбран цвет #{nextIndex}: {_viewModel.SelectedColorName}";
 
         // Записываем выбор цвета
         if (_isRecording && _recorder != null)
         {
-            _ = _recorder.RecordColorSelectAsync(index.Value, _viewModel.SelectedColorHex, _viewModel.CursorX, _viewModel.CursorY);
+            _ = _recorder.RecordColorSelectAsync(nextIndex, _viewModel.SelectedColorHex, _viewModel.CursorX, _viewModel.CursorY);
         }
     }
 
@@ -462,26 +459,28 @@ public sealed class PaintController : IDisposable
 
     private void ResetCursor()
     {
-        var centerX = AppConfig.CanvasLeft + AppConfig.CanvasWidth / 2.0;
-        var centerY = AppConfig.CanvasTop + AppConfig.CanvasHeight / 2.0;
+        // Используем логические координаты холста (0-600)
+        var centerX = AppConfig.CanvasWidth / 2.0;
+        var centerY = AppConfig.CanvasHeight / 2.0;
         _viewModel.UpdateCursor(centerX, centerY);
     }
 
     private bool TryGetCanvasPoint(out Point canvasPoint)
     {
-        var canvasLeft = AppConfig.CanvasLeft;
-        var canvasTop = AppConfig.CanvasTop;
+        // Используем логические координаты холста напрямую (0-600)
+        // Координаты уже ограничены в UpdateCursor, но проверяем еще раз для надежности
         var x = _viewModel.CursorX;
         var y = _viewModel.CursorY;
 
-        if (x < canvasLeft || x > canvasLeft + AppConfig.CanvasWidth ||
-            y < canvasTop || y > canvasTop + AppConfig.CanvasHeight)
+        // Проверяем, что координаты находятся в пределах холста (включая границы)
+        if (x < 0 || x >= AppConfig.CanvasWidth ||
+            y < 0 || y >= AppConfig.CanvasHeight)
         {
             canvasPoint = default;
             return false;
         }
 
-        canvasPoint = new Point(x - canvasLeft, y - canvasTop);
+        canvasPoint = new Point(x, y);
         return true;
     }
 
@@ -497,46 +496,6 @@ public sealed class PaintController : IDisposable
         }
     }
 
-    private static int? GetColorIndexAt(double x, double y)
-    {
-        var startX = AppConfig.ColorPanelX;
-        var startY = AppConfig.ColorPanelY;
-        var size = AppConfig.ColorCellSize;
-        var spacing = AppConfig.ColorCellSpacing;
-        var columns = AppConfig.ColorPanelColumns;
-        var rows = (int)Math.Ceiling(ColorPalette.Default.Count / (double)columns);
-
-        var panelWidth = columns * size + (columns - 1) * spacing;
-        var panelHeight = rows * size + (rows - 1) * spacing;
-
-        if (x < startX || x > startX + panelWidth ||
-            y < startY || y > startY + panelHeight)
-        {
-            return null;
-        }
-
-        var relativeX = x - startX;
-        var relativeY = y - startY;
-
-        var column = (int)(relativeX / (size + spacing));
-        var row = (int)(relativeY / (size + spacing));
-
-        if (column >= columns || row >= rows)
-        {
-            return null;
-        }
-
-        var cellX = column * (size + spacing);
-        var cellY = row * (size + spacing);
-
-        if (relativeX > cellX + size || relativeY > cellY + size)
-        {
-            return null;
-        }
-
-        var index = row * columns + column;
-        return index < ColorPalette.Default.Count ? index : null;
-    }
 
     public async Task StartPlaybackAsync(int sessionId)
     {

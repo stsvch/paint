@@ -21,8 +21,9 @@ public sealed class PaintViewModel : INotifyPropertyChanged
     private string _pictureDisplayName = string.Empty;
     private string _statusMessage = string.Empty;
     private bool _isSerialConnected;
-    private double _cursorX = AppConfig.CanvasLeft + AppConfig.CanvasWidth / 2.0;
-    private double _cursorY = AppConfig.CanvasTop + AppConfig.CanvasHeight / 2.0;
+    // Используем логические координаты холста (0-600) вместо экранных
+    private double _cursorX = AppConfig.CanvasWidth / 2.0;
+    private double _cursorY = AppConfig.CanvasHeight / 2.0;
     private double _cursorLeft;
     private double _cursorTop;
     private double _cursorInnerLeft;
@@ -199,6 +200,10 @@ public sealed class PaintViewModel : INotifyPropertyChanged
 
     public void UpdateCursor(double x, double y)
     {
+        // Ограничиваем координаты границами холста
+        x = Math.Max(0, Math.Min(AppConfig.CanvasWidth, x));
+        y = Math.Max(0, Math.Min(AppConfig.CanvasHeight, y));
+        
         CursorX = x;
         CursorY = y;
         OnPropertyChanged(nameof(CursorPosition));
