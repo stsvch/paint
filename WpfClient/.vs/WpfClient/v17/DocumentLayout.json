@@ -3,34 +3,92 @@
   "WorkspaceRootPath": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|c:\\users\\user\\desktop\\7\\paint\\wpfclient\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\wpfclient.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:wpfclient.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\controls\\playbackcontrols.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:controls\\playbackcontrols.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\paintengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:paintengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|c:\\users\\user\\desktop\\7\\paint\\wpfclient\\controls\\playbackcontrols.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:controls\\playbackcontrols.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\8.0.204\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.TargetFrameworkInference.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\playbackdialog.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:playbackdialog.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|c:\\users\\user\\desktop\\7\\paint\\wpfclient\\playbackdialog.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:playbackdialog.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|c:\\users\\user\\desktop\\7\\paint\\wpfclient\\controls\\playbacksessionitem.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:controls\\playbacksessionitem.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|c:\\users\\user\\desktop\\7\\paint\\wpfclient\\controls\\playbacksessionitem.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:controls\\playbacksessionitem.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|c:\\users\\user\\desktop\\7\\paint\\wpfclient\\resources\\theme.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:resources\\theme.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|c:\\users\\user\\desktop\\7\\paint\\wpfclient\\controls\\filledfigurespanel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:controls\\filledfigurespanel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\controls\\filledfigurespanel.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:controls\\filledfigurespanel.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\controls\\hotkeyspanel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:controls\\hotkeyspanel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\controls\\infopanel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:controls\\infopanel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\controls\\filledfigurespanel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:controls\\filledfigurespanel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\controls\\palettepanel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:controls\\palettepanel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\controls\\infopanel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:controls\\infopanel.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\controls\\infopanel.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:controls\\infopanel.xaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\resources\\theme.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:resources\\theme.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\joystickmodehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:joystickmodehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\init.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
-      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:init.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\appconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:appconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\services\\demo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:services\\demo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\services\\actionrecorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:services\\actionrecorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\models\\actionrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:models\\actionrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\drawings\\flowerdrawing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -41,44 +99,31 @@
       "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:drawings\\drawingdefinition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\config\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:config\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\appconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:appconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\paintengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:paintengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\8.0.204\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.TargetFrameworkInference.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\init.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:init.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\coloroption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:coloroption.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\makefile||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:makefile||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\paintviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:paintviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\playbackdialog.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:playbackdialog.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\readme_database.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
       "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:readme_database.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\paintcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{456093D3-59D2-46F1-A8B3-05B78A8E3A94}|WpfClient.csproj|solutionrelative:paintcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -88,7 +133,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 144,
-          "SelectedChildIndex": 19,
+          "SelectedChildIndex": 23,
           "Children": [
             {
               "$type": "Bookmark",
@@ -100,102 +145,285 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PlaybackControls.xaml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\PlaybackControls.xaml",
+              "RelativeDocumentMoniker": "Controls\\PlaybackControls.xaml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\PlaybackControls.xaml",
+              "RelativeToolTip": "Controls\\PlaybackControls.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-20T13:22:26.729Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Microsoft.Common.CurrentVersion.targets",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ViewState": "AQIAAK8UAAAAAAAAAAAcwLIUAAALAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2025-11-19T14:18:10.535Z"
+              "Title": "PlaybackDialog.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\PlaybackDialog.xaml.cs",
+              "RelativeDocumentMoniker": "PlaybackDialog.xaml.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\PlaybackDialog.xaml.cs",
+              "RelativeToolTip": "PlaybackDialog.xaml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAALAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T13:21:51.27Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PlaybackSessionItem.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\PlaybackSessionItem.xaml.cs",
+              "RelativeDocumentMoniker": "Controls\\PlaybackSessionItem.xaml.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\PlaybackSessionItem.xaml.cs",
+              "RelativeToolTip": "Controls\\PlaybackSessionItem.xaml.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAmwBYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T13:21:20.618Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
+              "Title": "PlaybackSessionItem.xaml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\PlaybackSessionItem.xaml",
+              "RelativeDocumentMoniker": "Controls\\PlaybackSessionItem.xaml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\PlaybackSessionItem.xaml",
+              "RelativeToolTip": "Controls\\PlaybackSessionItem.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-20T13:21:04.365Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Theme.xaml",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Resources\\Theme.xaml",
               "RelativeDocumentMoniker": "Resources\\Theme.xaml",
               "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Resources\\Theme.xaml",
               "RelativeToolTip": "Resources\\Theme.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-11-19T14:12:50.606Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "WpfClient.csproj",
-              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\WpfClient.csproj",
-              "RelativeDocumentMoniker": "WpfClient.csproj",
-              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\WpfClient.csproj",
-              "RelativeToolTip": "WpfClient.csproj",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAiwBsAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-11-19T13:32:09.063Z",
+              "WhenOpened": "2025-11-20T13:19:35.034Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
+              "Title": "FilledFiguresPanel.xaml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\FilledFiguresPanel.xaml",
+              "RelativeDocumentMoniker": "Controls\\FilledFiguresPanel.xaml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\FilledFiguresPanel.xaml",
+              "RelativeToolTip": "Controls\\FilledFiguresPanel.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-20T12:46:23.525Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PlaybackControls.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\PlaybackControls.xaml.cs",
+              "RelativeDocumentMoniker": "Controls\\PlaybackControls.xaml.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\PlaybackControls.xaml.cs",
+              "RelativeToolTip": "Controls\\PlaybackControls.xaml.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAUwCgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T12:37:14.717Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "FilledFiguresPanel.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\FilledFiguresPanel.xaml.cs",
+              "RelativeDocumentMoniker": "Controls\\FilledFiguresPanel.xaml.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\FilledFiguresPanel.xaml.cs",
+              "RelativeToolTip": "Controls\\FilledFiguresPanel.xaml.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAuwAsAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T12:36:20.355Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "PalettePanel.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\PalettePanel.xaml.cs",
+              "RelativeDocumentMoniker": "Controls\\PalettePanel.xaml.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\PalettePanel.xaml.cs",
+              "RelativeToolTip": "Controls\\PalettePanel.xaml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T12:35:28.366Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "HotkeysPanel.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\HotkeysPanel.xaml.cs",
+              "RelativeDocumentMoniker": "Controls\\HotkeysPanel.xaml.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\HotkeysPanel.xaml.cs",
+              "RelativeToolTip": "Controls\\HotkeysPanel.xaml.cs",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAuwAgAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T12:34:34.754Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "InfoPanel.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\InfoPanel.xaml.cs",
+              "RelativeDocumentMoniker": "Controls\\InfoPanel.xaml.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\InfoPanel.xaml.cs",
+              "RelativeToolTip": "Controls\\InfoPanel.xaml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T12:34:07.041Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "FilledFiguresPanel.xaml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\FilledFiguresPanel.xaml",
+              "RelativeDocumentMoniker": "Controls\\FilledFiguresPanel.xaml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\FilledFiguresPanel.xaml",
+              "RelativeToolTip": "Controls\\FilledFiguresPanel.xaml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-20T12:23:18.895Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "InfoPanel.xaml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\InfoPanel.xaml",
+              "RelativeDocumentMoniker": "Controls\\InfoPanel.xaml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\InfoPanel.xaml",
+              "RelativeToolTip": "Controls\\InfoPanel.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-20T11:47:23.605Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "InfoPanel.xaml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\InfoPanel.xaml",
+              "RelativeDocumentMoniker": "Controls\\InfoPanel.xaml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Controls\\InfoPanel.xaml",
+              "RelativeToolTip": "Controls\\InfoPanel.xaml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-20T11:47:15.617Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "JoystickModeHandler.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\JoystickModeHandler.cs",
+              "RelativeDocumentMoniker": "JoystickModeHandler.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\JoystickModeHandler.cs",
+              "RelativeToolTip": "JoystickModeHandler.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T10:59:37.297Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Demo.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Services\\Demo.cs",
+              "RelativeDocumentMoniker": "Services\\Demo.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Services\\Demo.cs",
+              "RelativeToolTip": "Services\\Demo.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T10:58:39.628Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ActionRecorder.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Services\\ActionRecorder.cs",
+              "RelativeDocumentMoniker": "Services\\ActionRecorder.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Services\\ActionRecorder.cs",
+              "RelativeToolTip": "Services\\ActionRecorder.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T10:58:38.517Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ActionRecord.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Models\\ActionRecord.cs",
+              "RelativeDocumentMoniker": "Models\\ActionRecord.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Models\\ActionRecord.cs",
+              "RelativeToolTip": "Models\\ActionRecord.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAA/wAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T10:58:32.654Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "FlowerDrawing.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Drawings\\FlowerDrawing.cs",
+              "RelativeDocumentMoniker": "Drawings\\FlowerDrawing.cs",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Drawings\\FlowerDrawing.cs",
+              "RelativeToolTip": "Drawings\\FlowerDrawing.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T10:58:26.751Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
               "Title": "App.xaml",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\App.xaml",
               "RelativeDocumentMoniker": "App.xaml",
               "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\App.xaml",
               "RelativeToolTip": "App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-11-19T13:25:31.889Z"
+              "WhenOpened": "2025-11-19T13:25:31.889Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "FlowerDrawing.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Drawings\\FlowerDrawing.cs",
-              "RelativeDocumentMoniker": "Drawings\\FlowerDrawing.cs",
-              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Drawings\\FlowerDrawing.cs",
-              "RelativeToolTip": "Drawings\\FlowerDrawing.cs",
-              "ViewState": "AQIAAJQAAAAAAAAAAAAwwAYAAAATAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T13:25:22.838Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 23,
               "Title": "DrawingDefinition.cs",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Drawings\\DrawingDefinition.cs",
               "RelativeDocumentMoniker": "Drawings\\DrawingDefinition.cs",
               "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Drawings\\DrawingDefinition.cs",
               "RelativeToolTip": "Drawings\\DrawingDefinition.cs",
-              "ViewState": "AQIAAC4AAAAAAAAAAAAwwAwAAAAcAAAA",
+              "ViewState": "AQIAAC4AAAAAAAAAAAA/wAwAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-19T13:25:04.227Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "DatabaseConfig.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\config\\DatabaseConfig.cs",
-              "RelativeDocumentMoniker": "config\\DatabaseConfig.cs",
-              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\config\\DatabaseConfig.cs",
-              "RelativeToolTip": "config\\DatabaseConfig.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T13:20:34.478Z"
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "MainWindow.xaml",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\MainWindow.xaml*",
+              "RelativeToolTip": "MainWindow.xaml*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-20T10:57:12.501Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 18,
               "Title": "AppConfig.cs",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\AppConfig.cs",
               "RelativeDocumentMoniker": "AppConfig.cs",
               "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\AppConfig.cs",
               "RelativeToolTip": "AppConfig.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwBQAAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-19T13:20:29.198Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 24,
               "Title": "docker-compose.yml",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\docker-compose.yml",
               "RelativeDocumentMoniker": "docker-compose.yml",
@@ -207,7 +435,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 27,
               "Title": "init.sql ",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\init.sql",
               "RelativeDocumentMoniker": "init.sql",
@@ -218,7 +446,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 29,
               "Title": "Makefile",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\Makefile",
               "RelativeDocumentMoniker": "Makefile",
@@ -230,18 +458,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 3,
               "Title": "PlaybackDialog.xaml",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\PlaybackDialog.xaml",
               "RelativeDocumentMoniker": "PlaybackDialog.xaml",
               "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\PlaybackDialog.xaml",
               "RelativeToolTip": "PlaybackDialog.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-11-19T13:19:07.96Z"
+              "WhenOpened": "2025-11-19T13:19:07.96Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 30,
               "Title": "README_DATABASE.md",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\README_DATABASE.md",
               "RelativeDocumentMoniker": "README_DATABASE.md",
@@ -253,7 +482,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 28,
               "Title": "ColorOption.cs",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\ColorOption.cs",
               "RelativeDocumentMoniker": "ColorOption.cs",
@@ -265,7 +494,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 26,
               "Title": "Microsoft.NET.TargetFrameworkInference.targets",
               "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.TargetFrameworkInference.targets",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\8.0.204\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.TargetFrameworkInference.targets",
@@ -273,12 +502,11 @@
               "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\8.0.204\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.TargetFrameworkInference.targets",
               "ViewState": "AQIAAKEAAAAAAAAAAAAuwKUAAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2025-11-19T13:18:11.54Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-19T13:18:11.54Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 25,
               "Title": "PaintEngine.cs",
               "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\PaintEngine.cs",
               "RelativeDocumentMoniker": "PaintEngine.cs",
@@ -286,57 +514,7 @@
               "RelativeToolTip": "PaintEngine.cs",
               "ViewState": "AQIAAAYAAAAAAAAAAAAuwBUAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-15T10:50:46.82Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "PaintController.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\PaintController.cs",
-              "RelativeDocumentMoniker": "PaintController.cs",
-              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\PaintController.cs",
-              "RelativeToolTip": "PaintController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAHwAAAApAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T19:55:04.924Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "App.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\App.xaml.cs",
-              "RelativeDocumentMoniker": "App.xaml.cs",
-              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\App.xaml.cs",
-              "RelativeToolTip": "App.xaml.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAA/wBcAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T19:52:39.694Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "PaintViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\PaintViewModel.cs",
-              "RelativeDocumentMoniker": "PaintViewModel.cs",
-              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\PaintViewModel.cs",
-              "RelativeToolTip": "PaintViewModel.cs",
-              "ViewState": "AQIAABEAAAAAAAAAAAAAwEwAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T19:54:46.664Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "AssemblyInfo.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\AssemblyInfo.cs",
-              "RelativeDocumentMoniker": "AssemblyInfo.cs",
-              "ToolTip": "C:\\Users\\USER\\Desktop\\7\\paint\\WpfClient\\AssemblyInfo.cs",
-              "RelativeToolTip": "AssemblyInfo.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-13T19:52:42.501Z"
+              "WhenOpened": "2025-11-15T10:50:46.82Z"
             }
           ]
         },

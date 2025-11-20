@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="WpfClient.Controls.FilledFiguresPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--
+        Важно: UserControl НИЧЕГО не знает про размеры.
+        Всё задаёт родитель (Grid/StackPanel в MainWindow).
+    -->
+    <Border Style="{StaticResource PanelBorderStyle}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <!-- Заголовок -->
+                <RowDefinition Height="Auto" />
+                <!-- Строка с количеством -->
+                <RowDefinition Height="Auto" />
+                <!-- Список, заполняет остаток -->
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок -->
+            <TextBlock Grid.Row="0"
+                       Text="Залитые фигуры"
+                       FontSize="16"
+                       FontWeight="SemiBold" />
+
+            <!-- Количество -->
+            <TextBlock Grid.Row="1"
+                       Margin="0,4,0,8"
+                       FontSize="12"
+                       Foreground="{StaticResource MutedTextBrush}"
+                       Text="{Binding FilledCount, StringFormat=Всего: {0}}" />
+
+            <!-- Список фигур -->
+            <ScrollViewer Grid.Row="2"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding FilledFigures}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="White"
+                                    CornerRadius="10"
+                                    Padding="6"
+                                    Margin="0,0,0,6"
+                                    Effect="{StaticResource SoftShadow}">
+                                <TextBlock Text="{Binding}"
+                                           FontSize="12" />
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</UserControl>

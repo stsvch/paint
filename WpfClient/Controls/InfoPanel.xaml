@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="WpfClient.Controls.InfoPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Контрол сам не задаёт Width/Height.
+        Размер ему отдаст родитель (Grid/StackPanel/Canvas).
+    -->
+    <Border Style="{StaticResource PanelBorderStyle}">
+        <StackPanel>
+
+            <!-- Заголовок блока -->
+            <TextBlock Text="Картинка"
+                       Style="{StaticResource PanelSectionHeaderTextStyle}" />
+
+            <!-- Имя картинки -->
+            <TextBlock Text="{Binding PictureDisplayName}"
+                       FontSize="22"
+                       FontWeight="SemiBold"
+                       Margin="0,4,0,12" />
+
+            <!-- Строка с выбранным цветом -->
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                <Border Width="20"
+                        Height="20"
+                        Background="{Binding SelectedColorBrush}"
+                        CornerRadius="10" />
+                <TextBlock Text="{Binding SelectedColorName}"
+                           FontSize="16"
+                           Margin="10,0,0,0" />
+                <TextBlock Text="{Binding SelectedColorHex, StringFormat=({0})}"
+                           FontSize="12"
+                           Foreground="{StaticResource MutedTextBrush}"
+                           Margin="8,2,0,0" />
+            </StackPanel>
+
+            <Separator Margin="0,16,0,16" />
+
+            <!-- Позиция курсора -->
+            <TextBlock Text="Позиция курсора"
+                       Style="{StaticResource PanelSectionHeaderTextStyle}" />
+            <TextBlock Text="{Binding CursorPosition}"
+                       FontSize="16"
+                       Margin="0,4,0,0" />
+
+            <!-- Статус подключения -->
+            <Border Background="#EBF6EE"
+                    CornerRadius="12"
+                    Padding="12"
+                    Margin="0,16,0,0">
+                <TextBlock Text="{Binding ConnectionStatus}"
+                           FontSize="13"
+                           Foreground="#2C6333" />
+            </Border>
+
+        </StackPanel>
+    </Border>
+</UserControl>

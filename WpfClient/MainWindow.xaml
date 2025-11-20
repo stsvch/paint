@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfClient"
+        xmlns:controls="clr-namespace:WpfClient.Controls"
         mc:Ignorable="d"
         Title="Paint"
         Width="1260"
@@ -12,108 +13,104 @@
         MinHeight="820"
         Background="{DynamicResource WindowBackgroundBrush}"
         WindowStartupLocation="CenterScreen">
-    <Grid>
-        <Viewbox Stretch="Uniform" StretchDirection="Both">
-            <Grid Width="{x:Static local:AppConfig.ScreenWidth}"
-                  Height="{x:Static local:AppConfig.ScreenHeight}">
-                <Border Width="{x:Static local:AppConfig.ScreenWidth}"
-                        Height="{x:Static local:AppConfig.ScreenHeight}"
-                        CornerRadius="28"
-                        Background="White"
-                        Effect="{StaticResource MediumShadow}">
-                    <Canvas Width="{x:Static local:AppConfig.ScreenWidth}"
-                            Height="{x:Static local:AppConfig.ScreenHeight}">
-                        <TextBlock Canvas.Left="32" Canvas.Top="24"
-                                   Text="Paint Receiver"
-                                   FontSize="32"
-                                   FontWeight="SemiBold" />
-                        <TextBlock Canvas.Left="32" Canvas.Top="66"
-                                   Text="Раскрашивание с управлением джойстиком"
-                                   FontSize="16"
-                                   Foreground="{StaticResource MutedTextBrush}" />
 
-                        <Border Canvas.Left="32"
-                                Canvas.Top="112"
-                                Width="260"
-                                Height="220"
-                                Style="{StaticResource PanelBorderStyle}">
-                            <StackPanel>
-                                <TextBlock Text="Картинка"
-                                           FontSize="14"
-                                           FontWeight="SemiBold"
-                                           Foreground="{StaticResource MutedTextBrush}" />
-                                <TextBlock Text="{Binding PictureDisplayName}"
-                                           FontSize="22"
-                                           FontWeight="SemiBold"
-                                           Margin="0,4,0,12" />
-                                <StackPanel Orientation="Horizontal"
-                                            VerticalAlignment="Center">
-                                    <Border Width="20"
-                                            Height="20"
-                                            Background="{Binding SelectedColorBrush}"
-                                            CornerRadius="10" />
-                                    <TextBlock Text="{Binding SelectedColorName}"
-                                               FontSize="16"
-                                               Margin="10,0,0,0" />
-                                    <TextBlock Text="{Binding SelectedColorHex, StringFormat=({0})}"
-                                               FontSize="12"
-                                               Foreground="{StaticResource MutedTextBrush}"
-                                               Margin="8,2,0,0" />
-                                </StackPanel>
+    <!-- Корневой Grid вместо Viewbox -->
+    <Grid Margin="24">
+        <!-- Белая карточка по центру -->
+        <Border CornerRadius="28"
+                Background="White"
+                Effect="{StaticResource MediumShadow}">
+            <Grid Margin="32">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- Заголовок -->
+                    <RowDefinition Height="*"/>
+                    <!-- Основная часть -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Нижняя панель -->
+                </Grid.RowDefinitions>
 
-                                <Separator Margin="0,16,0,16" />
+                <!-- ====================== ЗАГОЛОВОК ====================== -->
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="Paint Receiver"
+                               FontSize="32"
+                               FontWeight="SemiBold" />
+                    <TextBlock Text="Раскрашивание с управлением джойстиком"
+                               FontSize="16"
+                               Foreground="{StaticResource MutedTextBrush}"
+                               Margin="0,8,0,0" />
+                </StackPanel>
 
-                                <TextBlock Text="Позиция курсора"
-                                           FontSize="14"
-                                           FontWeight="SemiBold"
-                                           Foreground="{StaticResource MutedTextBrush}" />
-                                <TextBlock Text="{Binding CursorPosition}"
-                                           FontSize="16"
-                                           Margin="0,4,0,0" />
+                <!-- ====================== ОСНОВНАЯ ОБЛАСТЬ ====================== -->
+                <Grid Grid.Row="1" Margin="0,24,0,24">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="260"/>
+                        <!-- Левая колонка -->
+                        <ColumnDefinition Width="*"/>
+                        <!-- Холст -->
+                        <ColumnDefinition Width="260"/>
+                        <!-- Правая колонка -->
+                    </Grid.ColumnDefinitions>
 
-                                <Border Background="#EBF6EE"
-                                        CornerRadius="12"
-                                        Padding="12"
-                                        Margin="0,16,0,0">
-                                    <TextBlock Text="{Binding ConnectionStatus}"
-                                               FontSize="13"
-                                               Foreground="#2C6333" />
-                                </Border>
-                            </StackPanel>
-                        </Border>
+                    <!-- ЛЕВАЯ КОЛОНКА: инфо + хоткеи -->
+                    <StackPanel Grid.Column="0" VerticalAlignment="Stretch">
+                        <controls:InfoPanel />
 
-                        <Border Canvas.Left="32"
-                                Canvas.Top="350"
-                                Width="260"
-                                Height="140"
-                                Style="{StaticResource PanelBorderStyle}">
-                            <StackPanel>
-                                <TextBlock Text="Горячие клавиши"
-                                           FontSize="14"
-                                           FontWeight="SemiBold"
-                                           Margin="0,0,0,8" />
-                                <TextBlock Text="A/D — выбрать цвет | B — залить фигуру | C — очистить фигуру"
-                                           TextWrapping="Wrap"
-                                           FontSize="13"
-                                           Foreground="{StaticResource MutedTextBrush}" />
-                                <TextBlock Text="E — следующая картинка | F — очистить всё"
-                                           TextWrapping="Wrap"
-                                           FontSize="13"
-                                           Foreground="{StaticResource MutedTextBrush}"
-                                           Margin="0,6,0,0" />
-                            </StackPanel>
-                        </Border>
+                        <controls:HotkeysPanel Margin="0,16,0,0" />
+                    </StackPanel>
 
-                        <Border Canvas.Left="720"
-                                Canvas.Top="32"
-                                Width="220"
-                                Height="200"
-                                Style="{StaticResource PanelBorderStyle}">
+                    <!-- ЦЕНТР: холст + курсор -->
+                    <!-- ЦЕНТР: холст + курсор -->
+                    <Grid Grid.Column="1" Margin="24,0">
+
+                        <!-- Viewbox уменьшает холст, если места мало,
+         но не растягивает больше исходного размера -->
+                        <Viewbox Stretch="Uniform"
+             StretchDirection="DownOnly"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center">
+
+                            <!-- Внутри остаётся тот же “логический” размер холста -->
+                            <Border Width="{x:Static local:AppConfig.CanvasWidth}"
+                Height="{x:Static local:AppConfig.CanvasHeight}"
+                CornerRadius="32"
+                Background="#FBFCFF"
+                BorderBrush="#D5DFF1"
+                BorderThickness="2"
+                Effect="{StaticResource SoftShadow}">
+                                <Grid>
+                                    <Image Source="{Binding CanvasImage}"
+                       Stretch="Fill" />
+
+                                    <!-- Курсор поверх изображения -->
+                                    <Canvas IsHitTestVisible="False">
+                                        <Ellipse Width="{Binding CursorDiameter}"
+                             Height="{Binding CursorDiameter}"
+                             Stroke="{StaticResource AccentBrush}"
+                             StrokeThickness="2"
+                             Canvas.Left="{Binding CursorLeft}"
+                             Canvas.Top="{Binding CursorTop}"
+                             Fill="{x:Null}" />
+                                        <Ellipse Width="4"
+                             Height="4"
+                             Fill="{StaticResource AccentBrush}"
+                             Canvas.Left="{Binding CursorInnerLeft}"
+                             Canvas.Top="{Binding CursorInnerTop}" />
+                                    </Canvas>
+                                </Grid>
+                            </Border>
+                        </Viewbox>
+                    </Grid>
+
+
+                    <!-- ПРАВАЯ КОЛОНКА: образец + палитра + джойстик + фигуры -->
+                    <StackPanel Grid.Column="2" VerticalAlignment="Stretch">
+
+                        <!-- Образец -->
+                        <Border Style="{StaticResource PanelBorderStyle}">
                             <StackPanel>
                                 <TextBlock Text="Образец"
-                                           FontSize="14"
-                                           FontWeight="SemiBold"
-                                           Foreground="{StaticResource MutedTextBrush}"
+                                           Style="{StaticResource PanelSectionHeaderTextStyle}"
                                            Margin="0,0,0,12" />
                                 <Border Background="White"
                                         CornerRadius="12"
@@ -124,93 +121,11 @@
                             </StackPanel>
                         </Border>
 
-                        <Border Canvas.Left="720"
-                                Canvas.Top="250"
-                                Width="220"
-                                Height="300"
-                                Style="{StaticResource PanelBorderStyle}">
-                            <Canvas Width="220" Height="300">
-                                <TextBlock Canvas.Left="16" Canvas.Top="12"
-                                           Text="Цвета"
-                                           FontSize="16"
-                                           FontWeight="SemiBold" />
-                                <ListBox Canvas.Left="16"
-                                         Canvas.Top="52"
-                                         Width="188"
-                                         Height="232"
-                                         ItemsSource="{Binding Palette}"
-                                         ItemTemplate="{StaticResource PaletteItemTemplate}"
-                                         ItemContainerStyle="{StaticResource PaletteItemContainerStyle}"
-                                         SelectedIndex="{Binding SelectedColorIndex, Mode=TwoWay}"
-                                         Background="Transparent"
-                                         BorderThickness="0"
-                                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                                    <ListBox.Resources>
-                                        <Style TargetType="ScrollBar" BasedOn="{StaticResource ThinScrollBarStyle}" />
-                                    </ListBox.Resources>
-                                    <ListBox.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel ItemWidth="56"
-                                                       ItemHeight="56"
-                                                       MinWidth="56" />
-                                        </ItemsPanelTemplate>
-                                    </ListBox.ItemsPanel>
-                                </ListBox>
-                            </Canvas>
-                        </Border>
+                        <!-- Палитра -->
+                        <controls:PalettePanel Margin="0,16,0,0" />
 
-                        <Border Canvas.Left="720"
-                                Canvas.Top="570"
-                                Width="220"
-                                Height="110"
-                                Style="{StaticResource PanelBorderStyle}">
-                            <StackPanel>
-                                <TextBlock Text="Залитые фигуры"
-                                           FontSize="16"
-                                           FontWeight="SemiBold" />
-                                <TextBlock Text="{Binding FilledCount, StringFormat=Всего: {0}}"
-                                           FontSize="12"
-                                           Foreground="{StaticResource MutedTextBrush}"
-                                           Margin="0,4,0,8" />
-                                <ScrollViewer VerticalScrollBarVisibility="Auto"
-                                              Height="60">
-                                    <ItemsControl ItemsSource="{Binding FilledFigures}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border Background="White"
-                                                        CornerRadius="10"
-                                                        Padding="6"
-                                                        Margin="0,0,0,6"
-                                                        Effect="{StaticResource SoftShadow}">
-                                                    <TextBlock Text="{Binding}"
-                                                               FontSize="12" />
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
-                            </StackPanel>
-                        </Border>
-
-                        <Border Canvas.Left="{x:Static local:AppConfig.CanvasLeft}"
-                                Canvas.Top="{x:Static local:AppConfig.CanvasTop}"
-                                Width="{x:Static local:AppConfig.CanvasWidth}"
-                                Height="{x:Static local:AppConfig.CanvasHeight}"
-                                CornerRadius="32"
-                                Background="#FBFCFF"
-                                BorderBrush="#D5DFF1"
-                                BorderThickness="2"
-                                Effect="{StaticResource SoftShadow}">
-                            <Grid>
-                                <Image Source="{Binding CanvasImage}"
-                                       Stretch="Fill" />
-                            </Grid>
-                        </Border>
-
-                        <Button Canvas.Left="720"
-                                Canvas.Top="520"
-                                Width="220"
+                        <!-- Кнопка джойстика -->
+                        <Button Margin="0,16,0,0"
                                 Height="44"
                                 Click="OnJoystickModeToggle"
                                 Foreground="White"
@@ -232,28 +147,38 @@
                                        TextAlignment="Center" />
                         </Button>
 
-                        <Border Canvas.Left="32"
-                                Canvas.Top="620"
-                                Width="450"
-                                Height="44"
-                                CornerRadius="12"
+                        <!-- Залитые фигуры -->
+                        <controls:FilledFiguresPanel Margin="0,16,0,0" />
+                    </StackPanel>
+                </Grid>
+
+                <!-- ====================== НИЖНЯЯ ПАНЕЛЬ ====================== -->
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <!-- Статусы -->
+                        <ColumnDefinition Width="Auto"/>
+                        <!-- Кнопки управления -->
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Слева: статус / прогресс (два взаимно исключающих блока) -->
+                    <Grid Grid.Column="0" Margin="0,0,24,0">
+                        <!-- Сообщение статуса -->
+                        <Border CornerRadius="12"
                                 Background="#EFF3FB"
-                                Visibility="{Binding HasStatusMessage, Converter={StaticResource BoolToVisibility}}"
                                 Padding="16,8"
-                                Effect="{StaticResource SoftShadow}">
+                                Effect="{StaticResource SoftShadow}"
+                                Visibility="{Binding HasStatusMessage, Converter={StaticResource BoolToVisibility}}">
                             <TextBlock Text="{Binding StatusMessage}"
                                        FontSize="14" />
                         </Border>
 
-                        <Border Canvas.Left="32"
-                                Canvas.Top="620"
-                                Width="450"
-                                Height="44"
-                                CornerRadius="12"
+                        <!-- Прогресс проигрывания -->
+                        <Border CornerRadius="12"
                                 Background="#F1F4FA"
-                                Visibility="{Binding IsPlaying, Converter={StaticResource BoolToVisibility}}"
                                 Padding="12,8"
-                                Effect="{StaticResource SoftShadow}">
+                                Effect="{StaticResource SoftShadow}"
+                                Visibility="{Binding IsPlaying, Converter={StaticResource BoolToVisibility}}">
                             <StackPanel>
                                 <ProgressBar Value="{Binding PlaybackProgress}"
                                              Maximum="100"
@@ -268,114 +193,17 @@
                                            HorizontalAlignment="Center" />
                             </StackPanel>
                         </Border>
+                    </Grid>
 
-                        <Border Canvas.Left="520"
-                                Canvas.Top="620"
-                                Width="420"
-                                Height="60"
-                                CornerRadius="16"
-                                Background="#F1F4FA"
-                                Padding="12,8"
-                                Effect="{StaticResource SoftShadow}">
-                            <StackPanel Orientation="Horizontal"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center">
-                                <Button Width="110"
-                                        Margin="0,0,8,0"
-                                        Click="OnRecordClick">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource ElevatedButtonStyle}">
-                                            <Setter Property="Background" Value="#4CAF50" />
-                                            <Setter Property="Content" Value="Запись" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsRecording}" Value="True">
-                                                    <Setter Property="Background" Value="#FF6B6B" />
-                                                    <Setter Property="Content" Value="Остановить" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
+                    <!-- Справа: панель управления (наш контрол) -->
+                    <controls:PlaybackControls Grid.Column="1"
+                           RecordRequested="OnRecordClick"
+                           PlaybackRequested="OnPlaybackClick"
+                           PauseResumeRequested="OnPauseResumeClick"
+                           StopRequested="OnStopPlaybackClick" />
 
-                                <Button Width="100"
-                                        Margin="0,0,8,0"
-                                        Click="OnPlaybackClick">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource ElevatedButtonStyle}">
-                                            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
-                                            <Setter Property="Content" Value="Демо" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsPlaying}" Value="True">
-                                                    <Setter Property="IsEnabled" Value="False" />
-                                                    <Setter Property="Opacity" Value="0.6" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-
-                                <Button Width="130"
-                                        Margin="0,0,8,0"
-                                        Click="OnPauseResumeClick">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource ElevatedButtonStyle}">
-                                            <Setter Property="Background" Value="#FF9800" />
-                                            <Setter Property="Content" Value="⏸ Пауза" />
-                                            <Setter Property="IsEnabled" Value="False" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsPlaying}" Value="True">
-                                                    <Setter Property="IsEnabled" Value="True" />
-                                                    <Setter Property="Content" Value="⏸ Пауза" />
-                                                    <Setter Property="Background" Value="#FF9800" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding IsPaused}" Value="True">
-                                                    <Setter Property="IsEnabled" Value="True" />
-                                                    <Setter Property="Background" Value="#4CAF50" />
-                                                    <Setter Property="Content" Value="▶ Продолжить" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-
-                                <Button Width="100"
-                                        Click="OnStopPlaybackClick">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource ElevatedButtonStyle}">
-                                            <Setter Property="Background" Value="#F44336" />
-                                            <Setter Property="Content" Value="⏹ Выход" />
-                                            <Setter Property="IsEnabled" Value="False" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsPlaying}" Value="True">
-                                                    <Setter Property="IsEnabled" Value="True" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-                            </StackPanel>
-                        </Border>
-                    </Canvas>
-                </Border>
-
-                <Canvas Width="{x:Static local:AppConfig.ScreenWidth}"
-                        Height="{x:Static local:AppConfig.ScreenHeight}"
-                        IsHitTestVisible="False">
-                    <Ellipse Width="{Binding CursorDiameter}"
-                             Height="{Binding CursorDiameter}"
-                             Stroke="{StaticResource AccentBrush}"
-                             StrokeThickness="2"
-                             Canvas.Left="{Binding CursorLeft}"
-                             Canvas.Top="{Binding CursorTop}"
-                             Fill="{x:Null}" />
-                    <Ellipse Width="4"
-                             Height="4"
-                             Fill="{StaticResource AccentBrush}"
-                             Canvas.Left="{Binding CursorInnerLeft}"
-                             Canvas.Top="{Binding CursorInnerTop}" />
-                </Canvas>
+                </Grid>
             </Grid>
-        </Viewbox>
+        </Border>
     </Grid>
 </Window>
-

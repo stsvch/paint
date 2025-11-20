@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="WpfClient.Controls.HotkeysPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Контрол сам не задаёт размеры — их даст родитель.
+        Внутри всё на StackPanel с TextWrapping.
+    -->
+    <Border Style="{StaticResource PanelBorderStyle}">
+        <StackPanel>
+
+            <!-- Заголовок -->
+            <TextBlock Text="Горячие клавиши"
+                       Style="{StaticResource PanelSectionHeaderTextStyle}"
+                       Margin="0,0,0,8" />
+
+            <!-- Первая строка подсказок -->
+            <TextBlock Text="A/D — выбрать цвет | B — залить фигуру | C — очистить фигуру"
+                       TextWrapping="Wrap"
+                       FontSize="13"
+                       Foreground="{StaticResource MutedTextBrush}" />
+
+            <!-- Вторая строка подсказок -->
+            <TextBlock Text="E — следующая картинка | F — очистить всё"
+                       TextWrapping="Wrap"
+                       FontSize="13"
+                       Foreground="{StaticResource MutedTextBrush}"
+                       Margin="0,6,0,0" />
+
+        </StackPanel>
+    </Border>
+</UserControl>

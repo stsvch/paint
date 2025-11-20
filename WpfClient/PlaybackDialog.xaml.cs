@@ -33,8 +33,15 @@ public partial class PlaybackDialog : Window
 
     private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        PlayButton.IsEnabled = SessionsListBox.SelectedItem is SessionInfo;
+        PlayButton.IsEnabled = SessionsListBox.SelectedItem != null;
     }
+
+    private void OnItemDeleteRequested(object? sender, object? session)
+    {
+        // session = объект SelectedItem (твоя модель сессии)
+        // Здесь пишешь логику удаления
+    }
+
 
     private void OnPlayClick(object sender, RoutedEventArgs e)
     {
