@@ -38,13 +38,13 @@ public abstract class DrawingDefinition
         DrawOutlines(context, scaleX, scaleY);
     }
 
-    protected abstract void DrawFilledFigures(
+    public abstract void DrawFilledFigures(
         DrawingContext context,
         IReadOnlyDictionary<string, Color> filledFigures,
         double scaleX,
         double scaleY);
 
-    protected abstract void DrawOutlines(DrawingContext context, double scaleX, double scaleY);
+    public abstract void DrawOutlines(DrawingContext context, double scaleX, double scaleY);
 
     public abstract void DrawReferenceOutlines(DrawingContext context);
 

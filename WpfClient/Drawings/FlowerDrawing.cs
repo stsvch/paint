@@ -43,7 +43,7 @@ public sealed class FlowerDrawing : DrawingDefinition
         DrawReferenceOutlines(context);
     }
 
-    protected override void DrawFilledFigures(
+    public override void DrawFilledFigures(
         DrawingContext context,
         IReadOnlyDictionary<string, Color> filledFigures,
         double scaleX,
@@ -79,7 +79,7 @@ public sealed class FlowerDrawing : DrawingDefinition
         }
     }
 
-    protected override void DrawOutlines(DrawingContext context, double scaleX, double scaleY)
+    public override void DrawOutlines(DrawingContext context, double scaleX, double scaleY)
     {
         context.DrawEllipse(null, OutlinePen, new Point(100 * scaleX, 70 * scaleY), 20 * scaleX, 20 * scaleY);
         context.DrawEllipse(null, OutlinePen, new Point(120 * scaleX, 90 * scaleY), 20 * scaleX, 20 * scaleY);

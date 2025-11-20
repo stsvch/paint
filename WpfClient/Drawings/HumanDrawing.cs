@@ -33,7 +33,7 @@ public sealed class HumanDrawing : DrawingDefinition
         DrawReferenceOutlines(context);
     }
 
-    protected override void DrawFilledFigures(
+    public override void DrawFilledFigures(
         DrawingContext context,
         IReadOnlyDictionary<string, Color> filledFigures,
         double scaleX,
@@ -66,7 +66,7 @@ public sealed class HumanDrawing : DrawingDefinition
         }
     }
 
-    protected override void DrawOutlines(DrawingContext context, double scaleX, double scaleY)
+    public override void DrawOutlines(DrawingContext context, double scaleX, double scaleY)
     {
         context.DrawRectangle(null, OutlinePen, new Rect(80 * scaleX, 100 * scaleY, 40 * scaleX, 60 * scaleY));
         context.DrawEllipse(null, OutlinePen, new Point(100 * scaleX, 80 * scaleY), 20 * scaleX, 20 * scaleY);

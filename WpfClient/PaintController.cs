@@ -384,9 +384,10 @@ public sealed class PaintController : IDisposable
             return;
         }
 
-        _engine.FillFigure(figure, _viewModel.SelectedColor);
+        // Используем flood fill вместо заливки всей фигуры
+        _engine.FillRegionAtPoint(canvasPoint.X, canvasPoint.Y, _viewModel.SelectedColor);
         _viewModel.UpdateImages(_engine);
-        _viewModel.StatusMessage = $"✓ Залита фигура: {figure}";
+        _viewModel.StatusMessage = $"✓ Залита область: {figure}";
 
         // Записываем заливку
         if (_isRecording && _recorder != null)
@@ -676,13 +677,13 @@ public sealed class PaintController : IDisposable
                 break;
 
             case ActionType.Fill:
-                if (!string.IsNullOrEmpty(action.FigureName) && action.ColorHex != null)
+                if (action.ColorHex != null && action.CanvasX.HasValue && action.CanvasY.HasValue)
                 {
-                    // Используем сохраненное имя фигуры напрямую, без HitTest
+                    // Используем flood fill с координатами из записи для правильного воспроизведения
                     var color = ParseColorHex(action.ColorHex);
                     _dispatcher.Invoke(() =>
                     {
-                        _engine.FillFigure(action.FigureName, color);
+                        _engine.FillRegionAtPoint(action.CanvasX.Value, action.CanvasY.Value, color);
                         _viewModel.UpdateImages(_engine);
                         
                         // Также обновляем выбранный цвет, если указан
