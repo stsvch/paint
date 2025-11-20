@@ -20,7 +20,7 @@ public sealed class ActionRecorder : IDisposable
 
     public bool IsRecording { get; private set; }
 
-    public async Task StartSessionAsync(string drawingKey)
+    public async Task StartSessionAsync(string drawingKey, IReadOnlyDictionary<string, System.Windows.Media.Color>? initialFilledFigures = null)
     {
         if (IsRecording)
         {
@@ -46,6 +46,12 @@ public sealed class ActionRecorder : IDisposable
             _currentSessionId = sessionId;
             _sessionStartTime = DateTime.UtcNow;
             IsRecording = true;
+
+            // Сохраняем начальное состояние холста, если оно указано
+            if (initialFilledFigures != null && initialFilledFigures.Count > 0)
+            {
+                await RecordInitialStateAsync(sessionId, initialFilledFigures);
+            }
         }
         catch (Exception ex)
         {
@@ -56,6 +62,27 @@ public sealed class ActionRecorder : IDisposable
         {
             _semaphore.Release();
         }
+    }
+
+    private async Task RecordInitialStateAsync(int sessionId, IReadOnlyDictionary<string, System.Windows.Media.Color> filledFigures)
+    {
+        // Сериализуем начальное состояние в формат: "figureName1:#RRGGBB;figureName2:#RRGGBB;..."
+        var stateParts = new List<string>();
+        foreach (var (figureName, color) in filledFigures)
+        {
+            var colorHex = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+            stateParts.Add($"{figureName}:{colorHex}");
+        }
+        var initialStateData = string.Join(";", stateParts);
+
+        await RecordActionAsync(new ActionRecord
+        {
+            SessionId = sessionId,
+            ActionType = ActionType.InitialState,
+            TimestampMs = 0, // Начальное состояние имеет timestamp 0
+            OccurredAt = DateTime.UtcNow,
+            AdditionalData = initialStateData
+        });
     }
 
     public async Task StopSessionAsync()

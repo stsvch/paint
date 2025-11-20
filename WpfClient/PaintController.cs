@@ -72,7 +72,9 @@ public sealed class PaintController : IDisposable
             _isRecording = value;
             if (value && _recorder != null)
             {
-                _ = _recorder.StartSessionAsync(_engine.Drawing.Key);
+                // Передаем текущее состояние холста (закрашенные фигуры) при старте записи
+                var initialFilledFigures = _engine.FilledFigures;
+                _ = _recorder.StartSessionAsync(_engine.Drawing.Key, initialFilledFigures);
             }
             else if (!value && _recorder != null)
             {
@@ -527,15 +529,15 @@ public sealed class PaintController : IDisposable
                 _viewModel.UpdateImages(_engine);
                 
                 // Очищаем все перед воспроизведением
+                // Начальное состояние будет восстановлено первым действием при воспроизведении
                 _engine.ClearAll();
                 _viewModel.UpdateImages(_engine);
                 _viewModel.SelectedColorIndex = 0;
                 ResetCursor();
                 
-                // Устанавливаем общее количество действий для прогресс-бара
-                _viewModel.TotalActions = (int)session.ActionCount;
+                // TotalActions будет установлен через ProgressChanged в Demo.PlaybackSessionAsync
+                // с учетом того, что InitialState не учитывается в прогрессе
             });
-            System.Diagnostics.Debug.WriteLine($"Установлено TotalActions: {_viewModel.TotalActions}");
         }
 
         try
@@ -609,6 +611,49 @@ public sealed class PaintController : IDisposable
             System.Diagnostics.Debug.WriteLine($"OnActionReplayed: обработка {action.ActionType}");
             switch (action.ActionType)
         {
+            case ActionType.InitialState:
+                // Восстанавливаем начальное состояние холста
+                if (!string.IsNullOrEmpty(action.AdditionalData))
+                {
+                    _dispatcher.Invoke(() =>
+                    {
+                        // Парсим формат: "figureName1:#RRGGBB;figureName2:#RRGGBB;..."
+                        var stateParts = action.AdditionalData.Split(';', StringSplitOptions.RemoveEmptyEntries);
+                        _engine.ClearAll(); // Очищаем текущее состояние
+                        
+                        foreach (var part in stateParts)
+                        {
+                            var colonIndex = part.IndexOf(':');
+                            if (colonIndex > 0 && colonIndex < part.Length - 1)
+                            {
+                                var figureName = part.Substring(0, colonIndex);
+                                var colorHex = part.Substring(colonIndex + 1);
+                                
+                                // Парсим цвет из hex
+                                if (colorHex.StartsWith("#") && colorHex.Length == 7)
+                                {
+                                    try
+                                    {
+                                        var r = Convert.ToByte(colorHex.Substring(1, 2), 16);
+                                        var g = Convert.ToByte(colorHex.Substring(3, 2), 16);
+                                        var b = Convert.ToByte(colorHex.Substring(5, 2), 16);
+                                        var color = System.Windows.Media.Color.FromRgb(r, g, b);
+                                        _engine.FillFigure(figureName, color);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        System.Diagnostics.Debug.WriteLine($"Ошибка при парсинге цвета {colorHex}: {ex.Message}");
+                                    }
+                                }
+                            }
+                        }
+                        
+                        _viewModel.UpdateImages(_engine);
+                        System.Diagnostics.Debug.WriteLine($"Восстановлено начальное состояние: {stateParts.Length} фигур");
+                    });
+                }
+                break;
+
             case ActionType.CursorMove:
                 if (action.CursorX.HasValue && action.CursorY.HasValue)
                 {

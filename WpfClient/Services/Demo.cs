@@ -110,11 +110,45 @@ public sealed class Demo : IDisposable
                 return;
             }
 
-            var firstTimestamp = actions[0].TimestampMs;
+            // Применяем начальное состояние, если оно есть (первое действие с типом InitialState)
+            ActionRecord? initialStateAction = null;
+            var actionsToPlay = new List<ActionRecord>();
+            
+            foreach (var action in actions)
+            {
+                if (action.ActionType == ActionType.InitialState && initialStateAction == null)
+                {
+                    initialStateAction = action;
+                    System.Diagnostics.Debug.WriteLine("Найдено начальное состояние, будет применено первым");
+                }
+                else
+                {
+                    actionsToPlay.Add(action);
+                }
+            }
+
+            // Применяем начальное состояние сразу, если оно есть
+            if (initialStateAction != null)
+            {
+                _dispatcher.Invoke(() =>
+                {
+                    onAction?.Invoke(initialStateAction);
+                    ActionReplayed?.Invoke(this, initialStateAction);
+                });
+            }
+
+            if (actionsToPlay.Count == 0)
+            {
+                System.Diagnostics.Debug.WriteLine("Нет действий для воспроизведения после начального состояния");
+                _isPlaying = false;
+                return;
+            }
+
+            var firstTimestamp = actionsToPlay[0].TimestampMs;
             var startTime = DateTime.UtcNow;
             long totalPauseDuration = 0;
             DateTime pauseStartTime = DateTime.MinValue;
-            totalActions = actions.Count;
+            totalActions = actionsToPlay.Count;
             int currentActionIndex = 0;
 
             // Уведомляем о начале воспроизведения (0%)
@@ -123,8 +157,8 @@ public sealed class Demo : IDisposable
                 ProgressChanged?.Invoke(this, new PlaybackProgressEventArgs(0, 0, totalActions));
             });
 
-            System.Diagnostics.Debug.WriteLine($"Начало цикла обработки {actions.Count} действий");
-            foreach (var action in actions)
+            System.Diagnostics.Debug.WriteLine($"Начало цикла обработки {actionsToPlay.Count} действий");
+            foreach (var action in actionsToPlay)
             {
                 if (_cancellation.Token.IsCancellationRequested)
                 {
@@ -351,6 +385,7 @@ public sealed class Demo : IDisposable
             "clearfigure" => ActionType.ClearFigure,
             "nextpicture" => ActionType.NextPicture,
             "clearall" => ActionType.ClearAll,
+            "initialstate" => ActionType.InitialState,
             _ => throw new ArgumentException($"Unknown action type: {type}")
         };
     }

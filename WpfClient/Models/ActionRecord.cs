@@ -7,7 +7,8 @@ public enum ActionType
     Fill,
     ClearFigure,
     NextPicture,
-    ClearAll
+    ClearAll,
+    InitialState
 }
 
 public sealed class ActionRecord
