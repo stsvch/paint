@@ -49,21 +49,31 @@ public sealed class PaintEngine
 
     public ImageSource CreateReferenceImage()
     {
-        var group = new DrawingGroup();
-        using (var context = group.Open())
+        // Используем RenderTargetBitmap для более быстрого рендеринга
+        var width = (int)AppConfig.ReferenceSize;
+        var height = (int)AppConfig.ReferenceSize;
+        var rtb = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
+        
+        var visual = new DrawingVisual();
+        using (var context = visual.RenderOpen())
         {
             Drawing.DrawReference(context);
         }
-
-        var image = new DrawingImage(group);
-        image.Freeze();
-        return image;
+        
+        rtb.Render(visual);
+        rtb.Freeze();
+        return rtb;
     }
 
     public ImageSource CreateCanvasImage()
     {
-        var group = new DrawingGroup();
-        using (var context = group.Open())
+        // Используем RenderTargetBitmap для более быстрого рендеринга
+        var width = (int)AppConfig.CanvasWidth;
+        var height = (int)AppConfig.CanvasHeight;
+        var rtb = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
+        
+        var visual = new DrawingVisual();
+        using (var context = visual.RenderOpen())
         {
             // Рисуем белый фон
             context.DrawRectangle(Brushes.White, null, new Rect(0, 0, AppConfig.CanvasWidth, AppConfig.CanvasHeight));
@@ -74,13 +84,13 @@ public sealed class PaintEngine
             // Рисуем залитые области
             DrawFilledRegions(context, scaleX, scaleY);
 
-           
+            // Рисуем контуры
             Drawing.DrawOutlines(context, scaleX, scaleY);
         }
-
-        var image = new DrawingImage(group);
-        image.Freeze();
-        return image;
+        
+        rtb.Render(visual);
+        rtb.Freeze();
+        return rtb;
     }
 
     private void DrawFilledRegions(DrawingContext context, double scaleX, double scaleY)
@@ -99,13 +109,51 @@ public sealed class PaintEngine
                 var brush = new SolidColorBrush(color);
                 brush.Freeze();
                 
-                // Группируем точки в прямоугольники для оптимизации
+                // Оптимизация: группируем соседние точки в более крупные прямоугольники
+                // Это значительно уменьшает количество геометрий и ускоряет рендеринг
                 var sortedPoints = points.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
                 var rectangles = new List<Rect>();
                 
+                // Объединяем соседние точки в горизонтальные линии, затем в прямоугольники
+                var currentRow = new List<Point>();
+                int? currentY = null;
+                
                 foreach (var point in sortedPoints)
                 {
-                    rectangles.Add(new Rect(point.X, point.Y, 1, 1));
+                    if (currentY.HasValue && point.Y == currentY.Value && 
+                        (currentRow.Count == 0 || point.X == currentRow.Last().X + 1))
+                    {
+                        // Продолжаем текущую линию
+                        currentRow.Add(point);
+                    }
+                    else
+                    {
+                        // Завершаем предыдущую линию
+                        if (currentRow.Count > 0 && currentY.HasValue)
+                        {
+                            rectangles.Add(new Rect(currentRow.First().X, currentY.Value, currentRow.Count, 1));
+                        }
+                        // Начинаем новую линию
+                        currentRow = new List<Point> { point };
+                        currentY = (int)point.Y;
+                    }
+                }
+                
+                // Завершаем последнюю линию
+                if (currentRow.Count > 0 && currentY.HasValue)
+                {
+                    rectangles.Add(new Rect(currentRow.First().X, currentY.Value, currentRow.Count, 1));
+                }
+                
+                // Если оптимизация не дала результата (все точки разрознены), используем исходный метод
+                if (rectangles.Count > points.Count * 0.8)
+                {
+                    // Слишком много прямоугольников - используем исходный метод
+                    rectangles.Clear();
+                    foreach (var point in sortedPoints)
+                    {
+                        rectangles.Add(new Rect(point.X, point.Y, 1, 1));
+                    }
                 }
                 
                 // Рисуем все прямоугольники за один раз
@@ -143,37 +191,38 @@ public sealed class PaintEngine
 
     public void FillRegionAtPoint(double canvasX, double canvasY, Color color)
     {
-        // Создаем растровое изображение только контуров (без уже залитых областей) для flood fill
-        // Это позволяет перезакрашивать уже залитые области
-        var outlineBitmap = CreateOutlineBitmapOnly();
+        // Определяем имя фигуры по точке
+        var figureName = Drawing.HitTest(new Point(canvasX, canvasY));
+        if (figureName == null)
+        {
+            return;
+        }
+
+        // Создаем растровое изображение контуров с уже залитыми областями других фигур как барьерами
+        // Это предотвращает перезакрашивание уже залитых областей других фигур
+        var outlineBitmap = CreateOutlineBitmapWithFilledRegions(figureName);
         if (outlineBitmap == null)
         {
             return;
         }
 
         // Выполняем flood fill
-        var filledPoints = FloodFill(outlineBitmap, (int)canvasX, (int)canvasY, color);
+        var filledPoints = FloodFill(outlineBitmap, (int)canvasX, (int)canvasY, color, figureName);
         
         if (filledPoints.Count > 0)
         {
-            // Определяем имя фигуры по точке
-            var figureName = Drawing.HitTest(new Point(canvasX, canvasY));
-            if (figureName != null)
+            // Обновляем заливку фигуры
+            if (_filledRegions.TryGetValue(figureName, out var existing))
             {
-                // Заменяем существующую заливку новой (для перезакраски)
-                // Сначала удаляем старые точки этой фигуры, которые попадают в новую область
-                if (_filledRegions.TryGetValue(figureName, out var existing))
-                {
-                    // Удаляем точки, которые будут перезакрашены
-                    existing.filledPoints.ExceptWith(filledPoints);
-                    // Добавляем новые точки
-                    existing.filledPoints.UnionWith(filledPoints);
-                    _filledRegions[figureName] = (color, existing.filledPoints);
-                }
-                else
-                {
-                    _filledRegions[figureName] = (color, filledPoints);
-                }
+                // Удаляем точки, которые будут перезакрашены
+                existing.filledPoints.ExceptWith(filledPoints);
+                // Добавляем новые точки
+                existing.filledPoints.UnionWith(filledPoints);
+                _filledRegions[figureName] = (color, existing.filledPoints);
+            }
+            else
+            {
+                _filledRegions[figureName] = (color, filledPoints);
             }
         }
     }
@@ -209,24 +258,43 @@ public sealed class PaintEngine
         ClearAll();
     }
 
-    private WriteableBitmap? CreateOutlineBitmapOnly()
+    private WriteableBitmap? CreateOutlineBitmapWithFilledRegions(string currentFigureName)
     {
         var width = (int)AppConfig.CanvasWidth;
         var height = (int)AppConfig.CanvasHeight;
         var bitmap = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgra32, null);
 
-        // Рисуем только контуры на растровом изображении (без уже залитых областей)
-        // Это позволяет перезакрашивать уже залитые области
         var visual = new DrawingVisual();
         using (var context = visual.RenderOpen())
         {
             // Белый фон
             context.DrawRectangle(Brushes.White, null, new Rect(0, 0, width, height));
-            
+
             var scaleX = AppConfig.CanvasWidth / Drawing.BaseSize.Width;
             var scaleY = AppConfig.CanvasHeight / Drawing.BaseSize.Height;
+
+            // Рисуем уже залитые области других фигур в темно-сером цвете как барьеры
+            // Это предотвращает перезакрашивание уже залитых областей других фигур
+            foreach (var (figureName, (filledColor, points)) in _filledRegions)
+            {
+                if (figureName != currentFigureName && points.Count > 0)
+                {
+                    var barrierBrush = new SolidColorBrush(Color.FromRgb(50, 50, 50)); // Темно-серый барьер
+                    barrierBrush.Freeze();
+                    
+                    // Рисуем точки как барьеры
+                    var geometry = new GeometryGroup();
+                    foreach (var point in points)
+                    {
+                        geometry.Children.Add(new RectangleGeometry(new Rect(point.X, point.Y, 1, 1)));
+                    }
+                    geometry.Freeze();
+                    context.DrawGeometry(barrierBrush, null, geometry);
+                }
+            }
             
-            // Рисуем только контуры (без уже залитых областей)
+            // Рисуем контуры дважды для более толстых границ
+            Drawing.DrawOutlines(context, scaleX, scaleY);
             Drawing.DrawOutlines(context, scaleX, scaleY);
         }
 
@@ -241,7 +309,7 @@ public sealed class PaintEngine
         return bitmap;
     }
 
-    private HashSet<Point> FloodFill(WriteableBitmap bitmap, int startX, int startY, Color fillColor)
+    private HashSet<Point> FloodFill(WriteableBitmap bitmap, int startX, int startY, Color fillColor, string targetFigureName)
     {
         var filledPoints = new HashSet<Point>();
         var width = bitmap.PixelWidth;
@@ -262,12 +330,13 @@ public sealed class PaintEngine
         var startB = pixels[startIndex];
         var startA = pixels[startIndex + 3];
 
-        // Определяем, является ли пиксель контуром
+        // Определяем, является ли пиксель контуром или барьером
         bool IsOutline(int r, int g, int b, int a)
         {
             // Черный контур - останавливаемся на нем
-            // Используем более строгий порог для определения контура
-            return r < 20 && g < 20 && b < 20 && a > 100;
+            // Темно-серый барьер (50, 50, 50) - уже залитые области других фигур
+            var darkness = (r + g + b) / 3.0;
+            return (darkness < 80 && a > 150) || (r == 50 && g == 50 && b == 50 && a > 150);
         }
 
         // Если начальная точка является контуром, выходим
@@ -297,6 +366,12 @@ public sealed class PaintEngine
         // Определяем, является ли пиксель того же цвета, что и начальная точка
         bool IsSameColorAsStart(int r, int g, int b, int a)
         {
+            // Не заливаем темно-серые барьеры (уже залитые области других фигур)
+            if (r == 50 && g == 50 && b == 50 && a > 150)
+            {
+                return false;
+            }
+            
             // Если начальная точка белая/прозрачная, заливаем только белые/прозрачные
             if (IsUnfilled(targetR, targetG, targetB, targetA))
             {
@@ -307,6 +382,13 @@ public sealed class PaintEngine
             // Используем порог для сравнения цветов (учитываем возможные различия из-за антиалиасинга)
             var colorDiff = Math.Abs(r - targetR) + Math.Abs(g - targetG) + Math.Abs(b - targetB);
             return colorDiff < 30 && Math.Abs(a - targetA) < 50;
+        }
+        
+        // Проверяем, принадлежит ли точка целевой фигуре
+        bool BelongsToTargetFigure(int x, int y)
+        {
+            var hitFigure = Drawing.HitTest(new Point(x, y));
+            return hitFigure == targetFigureName;
         }
 
         // Используем очередь для flood fill
@@ -342,6 +424,12 @@ public sealed class PaintEngine
                 }
 
                 if (filledPoints.Contains(neighbor))
+                {
+                    continue;
+                }
+
+                // Проверяем, принадлежит ли точка целевой фигуре
+                if (!BelongsToTargetFigure(nx, ny))
                 {
                     continue;
                 }

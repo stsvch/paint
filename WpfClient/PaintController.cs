@@ -29,6 +29,16 @@ public sealed class PaintController : IDisposable
 
     private SerialPort? _serialPort;
     private Task? _serialTask;
+    
+    // Дросселирование записи движений курсора (записываем не чаще чем раз в 100мс)
+    private DateTime _lastCursorMoveRecordTime = DateTime.MinValue;
+    private const int CursorMoveRecordIntervalMs = 100;
+    
+    // Батчинг обновлений курсора - накапливаем изменения и обновляем пакетом
+    private double _pendingCursorX;
+    private double _pendingCursorY;
+    private bool _hasPendingCursorUpdate;
+    private readonly DispatcherTimer _cursorUpdateTimer;
 
     public PaintController(PaintViewModel viewModel, PaintEngine engine, bool enableDatabase = true)
     {
@@ -40,6 +50,22 @@ public sealed class PaintController : IDisposable
         var centerX = AppConfig.CanvasWidth / 2.0;
         var centerY = AppConfig.CanvasHeight / 2.0;
         _joystickModeHandler = new JoystickModeHandler(centerX, centerY);
+        
+        // Таймер для батчинга обновлений курсора (обновляем UI не чаще 60 раз в секунду)
+        // Используем DispatcherTimer для работы в UI потоке - это более эффективно
+        _cursorUpdateTimer = new DispatcherTimer(DispatcherPriority.Render, _dispatcher)
+        {
+            Interval = TimeSpan.FromMilliseconds(16.67) // ~60 FPS для плавного движения
+        };
+        _cursorUpdateTimer.Tick += (sender, e) =>
+        {
+            if (_hasPendingCursorUpdate)
+            {
+                _hasPendingCursorUpdate = false;
+                _viewModel.UpdateCursor(_pendingCursorX, _pendingCursorY);
+            }
+        };
+        _cursorUpdateTimer.Start();
 
         if (enableDatabase)
         {
@@ -287,7 +313,9 @@ public sealed class PaintController : IDisposable
                 }
 
                 var message = line.Trim();
-                _dispatcher.Invoke(() => ProcessSerialMessage(message));
+                // Используем BeginInvoke для асинхронного обновления UI
+                // Это предотвращает блокировку фонового потока и лаги курсора
+                _dispatcher.BeginInvoke(new Action(() => ProcessSerialMessage(message)));
             }
         }, cancellationToken);
     }
@@ -320,12 +348,24 @@ public sealed class PaintController : IDisposable
                 var normalizedX = _joystickModeHandler.NormalizeX(rawX, _viewModel.CursorX);
                 var normalizedY = _joystickModeHandler.NormalizeY(rawY, _viewModel.CursorY);
 
-                _viewModel.UpdateCursor(normalizedX, normalizedY);
+                // Батчинг обновлений курсора - накапливаем изменения и обновляем пакетом через таймер
+                // Это предотвращает перегрузку UI потока и делает движение плавным
+                _pendingCursorX = normalizedX;
+                _pendingCursorY = normalizedY;
+                _hasPendingCursorUpdate = true;
 
-                // Записываем движение курсора
+                // Записываем движение курсора с дросселированием (не чаще чем раз в 100мс)
+                // Это предотвращает перегрузку БД и лаги при записи
                 if (_isRecording && _recorder != null)
                 {
-                    _ = _recorder.RecordCursorMoveAsync(normalizedX, normalizedY, rawX, rawY);
+                    var now = DateTime.UtcNow;
+                    var timeSinceLastRecord = (now - _lastCursorMoveRecordTime).TotalMilliseconds;
+                    
+                    if (timeSinceLastRecord >= CursorMoveRecordIntervalMs)
+                    {
+                        _lastCursorMoveRecordTime = now;
+                        _ = _recorder.RecordCursorMoveAsync(normalizedX, normalizedY, rawX, rawY);
+                    }
                 }
             }
         }
@@ -384,16 +424,33 @@ public sealed class PaintController : IDisposable
             return;
         }
 
-        // Используем flood fill вместо заливки всей фигуры
-        _engine.FillRegionAtPoint(canvasPoint.X, canvasPoint.Y, _viewModel.SelectedColor);
-        _viewModel.UpdateImages(_engine);
-        _viewModel.StatusMessage = $"✓ Залита область: {figure}";
-
-        // Записываем заливку
-        if (_isRecording && _recorder != null)
+        // Выполняем заливку асинхронно, чтобы не блокировать UI
+        var color = _viewModel.SelectedColor;
+        var colorIndex = _viewModel.SelectedColorIndex;
+        var colorHex = _viewModel.SelectedColorHex;
+        var cursorX = _viewModel.CursorX;
+        var cursorY = _viewModel.CursorY;
+        
+        _viewModel.StatusMessage = "⏳ Заливка...";
+        
+        _ = Task.Run(() =>
         {
-            _ = _recorder.RecordFillAsync(canvasPoint.X, canvasPoint.Y, figure, _viewModel.SelectedColorIndex, _viewModel.SelectedColorHex, _viewModel.CursorX, _viewModel.CursorY);
-        }
+            // Выполняем заливку в фоновом потоке
+            _engine.FillRegionAtPoint(canvasPoint.X, canvasPoint.Y, color);
+            
+            // Обновляем UI в UI потоке асинхронно
+            _dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                _viewModel.UpdateImages(_engine);
+                _viewModel.StatusMessage = $"✓ Залита область: {figure}";
+            }));
+
+            // Записываем заливку
+            if (_isRecording && _recorder != null)
+            {
+                _ = _recorder.RecordFillAsync(canvasPoint.X, canvasPoint.Y, figure, colorIndex, colorHex, cursorX, cursorY);
+            }
+        });
     }
 
     private void HandleClearFigure()
@@ -411,53 +468,93 @@ public sealed class PaintController : IDisposable
             return;
         }
 
-        if (_engine.ClearFigure(figure))
+        // Сохраняем значения для использования в замыкании
+        var canvasX = canvasPoint.X;
+        var canvasY = canvasPoint.Y;
+        var cursorX = _viewModel.CursorX;
+        var cursorY = _viewModel.CursorY;
+        
+        // Выполняем очистку асинхронно
+        _ = Task.Run(() =>
         {
-            _viewModel.UpdateImages(_engine);
-            _viewModel.StatusMessage = $"✓ Очищена фигура: {figure}";
-
-            // Записываем очистку фигуры
-            if (_isRecording && _recorder != null)
+            var cleared = _engine.ClearFigure(figure);
+            
+            if (cleared)
             {
-                _ = _recorder.RecordClearFigureAsync(canvasPoint.X, canvasPoint.Y, figure, _viewModel.CursorX, _viewModel.CursorY);
+                // Обновляем UI в UI потоке асинхронно
+                _dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                {
+                    _viewModel.UpdateImages(_engine);
+                    _viewModel.StatusMessage = $"✓ Очищена фигура: {figure}";
+                }));
+
+                // Записываем очистку фигуры
+                if (_isRecording && _recorder != null)
+                {
+                    _ = _recorder.RecordClearFigureAsync(canvasX, canvasY, figure, cursorX, cursorY);
+                }
             }
-        }
-        else
-        {
-            _viewModel.StatusMessage = "Фигура уже пустая";
-        }
+            else
+            {
+                _dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                {
+                    _viewModel.StatusMessage = "Фигура уже пустая";
+                }));
+            }
+        });
     }
 
     private void HandleNextPicture()
     {
-        _engine.NextPicture();
-        _viewModel.UpdatePicture(_engine);
-        _viewModel.UpdateImages(_engine);
-        _viewModel.SelectedColorIndex = 0;
-        ResetCursor();
-        _viewModel.StatusMessage = "✓ Новая картинка готова";
-
-        // Записываем смену картинки
-        if (_isRecording && _recorder != null)
+        // Выполняем смену картинки асинхронно
+        _ = Task.Run(() =>
         {
-            _ = _recorder.RecordNextPictureAsync("E");
-            // Начинаем новую сессию для новой картинки
-            _ = _recorder.StopSessionAsync();
-            _ = _recorder.StartSessionAsync(_engine.Drawing.Key);
-        }
+            _engine.NextPicture();
+            
+            // Обновляем UI в UI потоке асинхронно
+            _dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                _viewModel.UpdatePicture(_engine);
+                _viewModel.UpdateImages(_engine);
+                _viewModel.SelectedColorIndex = 0;
+                // Используем логические координаты холста (0-600)
+                var centerX = AppConfig.CanvasWidth / 2.0;
+                var centerY = AppConfig.CanvasHeight / 2.0;
+                _viewModel.UpdateCursor(centerX, centerY);
+                _viewModel.StatusMessage = "✓ Новая картинка готова";
+            }));
+
+            // Записываем смену картинки
+            if (_isRecording && _recorder != null)
+            {
+                _ = _recorder.RecordNextPictureAsync("E");
+                // Начинаем новую сессию для новой картинки
+                _ = _recorder.StopSessionAsync();
+                _ = _recorder.StartSessionAsync(_engine.Drawing.Key);
+            }
+        });
     }
 
     private void HandleClearAll()
     {
-        _engine.ClearAll();
-        _viewModel.UpdateImages(_engine);
-        _viewModel.StatusMessage = "✓ Canvas очищен";
-
-        // Записываем очистку всего
-        if (_isRecording && _recorder != null)
+        // Выполняем очистку асинхронно
+        _ = Task.Run(() =>
         {
-            _ = _recorder.RecordClearAllAsync("F");
-        }
+            _engine.ClearAll();
+            
+            // Обновляем UI в UI потоке асинхронно
+            _dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                _viewModel.UpdateImages(_engine);
+                _viewModel.StatusMessage = "✓ Canvas очищен";
+            }));
+
+            // Записываем очистку всего
+            if (_isRecording && _recorder != null)
+            {
+                _ = _recorder.RecordClearAllAsync("F");
+            }
+        });
     }
 
     private void ResetCursor()
@@ -752,6 +849,7 @@ public sealed class PaintController : IDisposable
     {
         _cancellation.Cancel();
         _playback?.StopPlayback();
+        _cursorUpdateTimer?.Stop();
         
         try
         {

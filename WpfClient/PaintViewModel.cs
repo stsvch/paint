@@ -4,7 +4,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace WpfClient;
 
@@ -204,9 +207,27 @@ public sealed class PaintViewModel : INotifyPropertyChanged
         x = Math.Max(0, Math.Min(AppConfig.CanvasWidth, x));
         y = Math.Max(0, Math.Min(AppConfig.CanvasHeight, y));
         
-        CursorX = x;
-        CursorY = y;
-        OnPropertyChanged(nameof(CursorPosition));
+        // Обновляем координаты напрямую, чтобы минимизировать количество PropertyChanged событий
+        // Увеличиваем порог до 0.5 пикселя для еще большей плавности
+        // Это предотвращает микро-обновления, которые создают лаги
+        if (Math.Abs(_cursorX - x) > 0.5 || Math.Abs(_cursorY - y) > 0.5)
+        {
+            _cursorX = x;
+            _cursorY = y;
+            _cursorLeft = x - CursorRadius;
+            _cursorTop = y - CursorRadius;
+            _cursorInnerLeft = x - 2;
+            _cursorInnerTop = y - 2;
+            
+            // Уведомляем об изменениях одним пакетом
+            OnPropertyChanged(nameof(CursorX));
+            OnPropertyChanged(nameof(CursorY));
+            OnPropertyChanged(nameof(CursorLeft));
+            OnPropertyChanged(nameof(CursorTop));
+            OnPropertyChanged(nameof(CursorInnerLeft));
+            OnPropertyChanged(nameof(CursorInnerTop));
+            OnPropertyChanged(nameof(CursorPosition));
+        }
     }
 
     public string CursorPosition => $"{(int)CursorX}, {(int)CursorY}";
@@ -366,9 +387,21 @@ public sealed class PaintViewModel : INotifyPropertyChanged
 
     public void UpdateImages(PaintEngine engine)
     {
-        CanvasImage = engine.CreateCanvasImage();
-        ReferenceImage = engine.CreateReferenceImage();
-        UpdateFilledFigures(engine.FilledFigures);
+        // Создаем изображения асинхронно, чтобы не блокировать UI
+        _ = Task.Run(() =>
+        {
+            var canvasImage = engine.CreateCanvasImage();
+            var referenceImage = engine.CreateReferenceImage();
+            var filledFigures = engine.FilledFigures;
+            
+            // Обновляем UI в UI потоке
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                CanvasImage = canvasImage;
+                ReferenceImage = referenceImage;
+                UpdateFilledFigures(filledFigures);
+            }));
+        });
     }
 
     public void UpdateFilledFigures(IReadOnlyDictionary<string, Color> filledFigures)
