@@ -14,6 +14,29 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
+    private void OnStartRequested(object sender, EventArgs e)
+    {
+        if (DataContext is PaintViewModel viewModel)
+        {
+            viewModel.IsMenuVisible = false;
+        }
+    }
+
+    private void OnBackToMenuClick(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is PaintViewModel viewModel)
+        {
+            viewModel.IsRecording = false;
+            if (viewModel.Controller != null)
+            {
+                viewModel.Controller.StopPlayback();
+            }
+
+            viewModel.IsPlaying = false;
+            viewModel.IsMenuVisible = true;
+        }
+    }
+
     private void OnRecordClick(object sender, RoutedEventArgs e)
     {
         if (DataContext is PaintViewModel viewModel)
