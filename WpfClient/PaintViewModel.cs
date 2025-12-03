@@ -23,6 +23,7 @@ public sealed class PaintViewModel : INotifyPropertyChanged
     private string _pictureKey = string.Empty;
     private string _pictureDisplayName = string.Empty;
     private string _statusMessage = string.Empty;
+    private bool _isMenuVisible = true;
     private bool _isSerialConnected;
     // Используем логические координаты холста (0-600) вместо экранных
     private double _cursorX = AppConfig.CanvasWidth / 2.0;
@@ -134,6 +135,20 @@ public sealed class PaintViewModel : INotifyPropertyChanged
             }
         }
     }
+
+    public bool IsMenuVisible
+    {
+        get => _isMenuVisible;
+        set
+        {
+            if (SetField(ref _isMenuVisible, value))
+            {
+                OnPropertyChanged(nameof(IsCanvasVisible));
+            }
+        }
+    }
+
+    public bool IsCanvasVisible => !_isMenuVisible;
 
     public bool IsSerialConnected
     {

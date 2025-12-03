@@ -16,10 +16,20 @@
 
     <!-- Корневой Grid вместо Viewbox -->
     <Grid Margin="24">
+        <!-- Меню запуска -->
+        <Border CornerRadius="28"
+                Background="White"
+                Effect="{StaticResource MediumShadow}"
+                Padding="32"
+                Visibility="{Binding IsMenuVisible, Converter={StaticResource BoolToVisibility}}">
+            <controls:StartMenu StartRequested="OnStartRequested" />
+        </Border>
+
         <!-- Белая карточка по центру -->
         <Border CornerRadius="28"
                 Background="White"
-                Effect="{StaticResource MediumShadow}">
+                Effect="{StaticResource MediumShadow}"
+                Visibility="{Binding IsCanvasVisible, Converter={StaticResource BoolToVisibility}}">
             <Grid Margin="32">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -31,15 +41,34 @@
                 </Grid.RowDefinitions>
 
                 <!-- ====================== ЗАГОЛОВОК ====================== -->
-                <StackPanel Grid.Row="0">
-                    <TextBlock Text="Paint Receiver"
-                               FontSize="32"
-                               FontWeight="SemiBold" />
-                    <TextBlock Text="Раскрашивание с управлением джойстиком"
-                               FontSize="16"
-                               Foreground="{StaticResource MutedTextBrush}"
-                               Margin="0,8,0,0" />
-                </StackPanel>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Paint Receiver"
+                                   FontSize="32"
+                                   FontWeight="SemiBold" />
+                        <TextBlock Text="Раскрашивание с управлением джойстиком"
+                                   FontSize="16"
+                                   Foreground="{StaticResource MutedTextBrush}"
+                                   Margin="0,8,0,0" />
+                    </StackPanel>
+
+                    <Button Grid.Column="1"
+                            Style="{StaticResource ElevatedButtonStyle}"
+                            Background="#2E3A59"
+                            Padding="18,10"
+                            VerticalAlignment="Center"
+                            Click="OnBackToMenuClick">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="←" FontSize="16" />
+                            <TextBlock Text="Вернуться в меню" FontSize="14" Margin="8,0,0,0" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
 
                 <!-- ====================== ОСНОВНАЯ ОБЛАСТЬ ====================== -->
                 <Grid Grid.Row="1" Margin="0,24,0,24">
