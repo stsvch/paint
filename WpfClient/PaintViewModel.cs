@@ -37,13 +37,22 @@ public sealed class PaintViewModel : INotifyPropertyChanged
     private PaintController? _controller;
     private double _playbackProgress;
     private JoystickMode _joystickMode = JoystickMode.Absolute;
-    private readonly TimeSpan _timedGameDuration = TimeSpan.FromSeconds(60);
+    private TimeSpan _timedGameDuration = TimeSpan.FromSeconds(60);
     private readonly DispatcherTimer _timedGameTimer = new();
     private TimeSpan _timedGameRemaining;
     private bool _isTimedGameRunning;
     private bool _isTimedGameFinished;
     private string _timedGameStatusText = string.Empty;
     private string _timedGameTimerText = string.Empty;
+    private int _timedGameTotalRegions;
+    private TimeSpan _timedGameLastDuration;
+    private TimeSpan _timedGameLastElapsed;
+    private bool _timedGameLastSuccess;
+    private int _timedGameLastFilledCount;
+    private int _timedGameFillActions;
+    private DateTime _timedGameStartTime;
+    private DateTime _timedGameFirstFillTime;
+    private DateTime _timedGameLastFillTime;
 
     public PaintViewModel()
     {
@@ -60,6 +69,7 @@ public sealed class PaintViewModel : INotifyPropertyChanged
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
+    public event EventHandler<TimedGameResultEventArgs>? TimedGameCompleted;
 
     public IReadOnlyList<ColorOption> Palette { get; }
 
@@ -301,6 +311,35 @@ public sealed class PaintViewModel : INotifyPropertyChanged
         private set => SetField(ref _timedGameStatusText, value);
     }
 
+    public int TimedGameTotalRegions
+    {
+        get => _timedGameTotalRegions;
+        private set => SetField(ref _timedGameTotalRegions, value);
+    }
+
+    public TimeSpan TimedGameLastDuration => _timedGameLastDuration;
+
+    public TimeSpan TimedGameLastElapsed => _timedGameLastElapsed;
+
+    public bool TimedGameLastSuccess => _timedGameLastSuccess;
+
+    public int TimedGameLastFilledCount => _timedGameLastFilledCount;
+
+    public TimeSpan TimedGameDuration
+    {
+        get => _timedGameDuration;
+        set
+        {
+            // Не даём установить нулевую или отрицательную длительность
+            if (value <= TimeSpan.Zero)
+            {
+                value = TimeSpan.FromSeconds(10);
+            }
+
+            _timedGameDuration = value;
+        }
+    }
+
     public PaintController? Controller
     {
         get => _controller;
@@ -450,6 +489,10 @@ public sealed class PaintViewModel : INotifyPropertyChanged
         }
 
         _controller.PrepareForTimedGame();
+        _timedGameStartTime = DateTime.UtcNow;
+        _timedGameFillActions = 0;
+        _timedGameFirstFillTime = _timedGameStartTime;
+        _timedGameLastFillTime = _timedGameStartTime;
         _timedGameRemaining = _timedGameDuration;
         TimedGameTimerText = FormatTime(_timedGameRemaining);
         TimedGameStatusText = "Раскрасьте как на образце, пока идет таймер";
@@ -473,9 +516,53 @@ public sealed class PaintViewModel : INotifyPropertyChanged
         _timedGameTimer.Stop();
         IsTimedGameRunning = false;
         IsTimedGameFinished = true;
+
+        // Расчёт статистики
+        _timedGameLastDuration = _timedGameDuration;
+        var elapsed = _timedGameDuration - _timedGameRemaining;
+        if (elapsed < TimeSpan.Zero)
+        {
+            elapsed = TimeSpan.Zero;
+        }
+
+        _timedGameLastElapsed = elapsed;
+        _timedGameLastSuccess = success;
+        _timedGameLastFilledCount = _filledFigures.Count;
+
+        // Активное время (от первой до последней заливки), остальное считаем бездействием
+        TimeSpan activeTime = TimeSpan.Zero;
+        if (_timedGameFillActions > 0)
+        {
+            activeTime = _timedGameLastFillTime - _timedGameFirstFillTime;
+            if (activeTime < TimeSpan.Zero)
+            {
+                activeTime = TimeSpan.Zero;
+            }
+            if (activeTime > elapsed)
+            {
+                activeTime = elapsed;
+            }
+        }
+
+        var idleTime = elapsed - activeTime;
+        if (idleTime < TimeSpan.Zero)
+        {
+            idleTime = TimeSpan.Zero;
+        }
+
         var prefix = success ? "🎉 " : "⌛ ";
         TimedGameStatusText = prefix + message;
         StatusMessage = prefix + message;
+
+        TimedGameCompleted?.Invoke(this, new TimedGameResultEventArgs(
+            success,
+            _timedGameDuration,
+            elapsed,
+            _timedGameLastFilledCount,
+            _timedGameTotalRegions,
+            _timedGameFillActions,
+            activeTime,
+            idleTime));
     }
 
     private void OnTimedGameTick()
@@ -522,6 +609,7 @@ public sealed class PaintViewModel : INotifyPropertyChanged
     {
         PictureKey = engine.Drawing.Key;
         PictureDisplayName = engine.Drawing.DisplayName;
+        TimedGameTotalRegions = engine.Drawing.ReferenceColors.Count;
     }
 
     public void UpdateImages(PaintEngine engine)
@@ -545,6 +633,9 @@ public sealed class PaintViewModel : INotifyPropertyChanged
 
     public void UpdateFilledFigures(IReadOnlyDictionary<string, Color> filledFigures)
     {
+        // Регистрируем действие в режиме игры на время
+        RegisterTimedGameFill();
+
         _filledFigures.Clear();
         foreach (var (name, color) in filledFigures)
         {
@@ -554,6 +645,23 @@ public sealed class PaintViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(FilledCount));
 
         EvaluateTimedGameProgress();
+    }
+
+    public void RegisterTimedGameFill()
+    {
+        if (!IsTimedGameRunning)
+        {
+            return;
+        }
+
+        _timedGameFillActions++;
+        var now = DateTime.UtcNow;
+        if (_timedGameFillActions == 1)
+        {
+            _timedGameFirstFillTime = now;
+        }
+
+        _timedGameLastFillTime = now;
     }
 
     private bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)

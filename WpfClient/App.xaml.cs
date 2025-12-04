@@ -75,6 +75,32 @@ public partial class App : Application
                 DataContext = viewModel
             };
 
+            viewModel.TimedGameCompleted += (_, result) =>
+            {
+                window.Dispatcher.Invoke(() =>
+                {
+                    var dialog = new TimedGameResultDialog(result)
+                    {
+                        Owner = window
+                    };
+
+                    if (dialog.ShowDialog() == true)
+                    {
+                        switch (dialog.Action)
+                        {
+                            case TimedGameResultAction.Retry:
+                                viewModel.CancelTimedGame();
+                                viewModel.StartTimedGame();
+                                break;
+                            case TimedGameResultAction.BackToMenu:
+                                viewModel.CancelTimedGame();
+                                viewModel.IsMenuVisible = true;
+                                break;
+                        }
+                    }
+                });
+            };
+
             MainWindow = window;
 
             window.Closed += (_, _) => _controller?.Dispose();

@@ -2,12 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Brushes -->
+    <!-- Более насыщенный градиентный фон окна -->
     <LinearGradientBrush x:Key="WindowBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="#F7F9FC" Offset="0" />
-        <GradientStop Color="#E3EAF7" Offset="1" />
+        <GradientStop Color="#F4F7FF" Offset="0" />
+        <GradientStop Color="#E1E9FF" Offset="0.45" />
+        <GradientStop Color="#FFEAF6" Offset="1" />
     </LinearGradientBrush>
 
-    <SolidColorBrush x:Key="CardBackgroundBrush" Color="White" />
+    <!-- Полупрозрачная «стеклянная» карточка -->
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#F0FFFFFF" />
     <SolidColorBrush x:Key="MutedTextBrush" Color="#5C6475" />
     <SolidColorBrush x:Key="AccentBrush" Color="#4B9EFF" />
 

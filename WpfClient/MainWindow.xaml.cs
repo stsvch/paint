@@ -18,13 +18,23 @@ public partial class MainWindow : Window
     {
         if (DataContext is PaintViewModel viewModel)
         {
-            viewModel.IsMenuVisible = false;
             if (e.Mode == StartMode.TimedGame)
             {
-                viewModel.StartTimedGame();
+                var dialog = new TimedGameDialog
+                {
+                    Owner = this
+                };
+
+                if (dialog.ShowDialog() == true)
+                {
+                    viewModel.TimedGameDuration = dialog.SelectedDuration;
+                    viewModel.IsMenuVisible = false;
+                    viewModel.StartTimedGame();
+                }
             }
             else
             {
+                viewModel.IsMenuVisible = false;
                 viewModel.CancelTimedGame();
             }
         }

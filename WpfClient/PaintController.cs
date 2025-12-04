@@ -14,7 +14,11 @@ namespace WpfClient;
 
 public sealed class PaintController : IDisposable
 {
-    private static readonly Regex JoystickRegex = new("^X:(\\d+),Y:(\\d+),B:(\\d+)", RegexOptions.Compiled);
+    // Более терпимая регулярка: допускаем произвольные пробелы и любой регистр X/Y/B.
+    // Это помогает, если прошивка платы шлёт, например, "X = 1234, Y = 5678, B = 0".
+    private static readonly Regex JoystickRegex = new(
+        @"X\s*:\s*(\d+)\s*,\s*Y\s*:\s*(\d+)\s*,\s*B\s*:\s*(\d+)",
+        RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     private readonly PaintViewModel _viewModel;
     private readonly PaintEngine _engine;
@@ -322,6 +326,9 @@ public sealed class PaintController : IDisposable
 
     private void ProcessSerialMessage(string message)
     {
+        // Диагностика формата входящих сообщений от платы
+        System.Diagnostics.Debug.WriteLine($"[UART] Raw message: '{message}'");
+
         // Игнорируем сообщения во время воспроизведения (кроме случая, когда пользователь явно хочет прервать)
         if (_isPlaying && !message.StartsWith("STOP", StringComparison.OrdinalIgnoreCase))
         {
@@ -442,6 +449,7 @@ public sealed class PaintController : IDisposable
             _dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
             {
                 _viewModel.UpdateImages(_engine);
+                _viewModel.RegisterTimedGameFill();
                 _viewModel.StatusMessage = $"✓ Залита область: {figure}";
             }));
 

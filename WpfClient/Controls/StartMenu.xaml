@@ -5,128 +5,186 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <StackPanel Grid.Column="0"
-                    VerticalAlignment="Center"
-                    Margin="0,12,32,12">
+    <Grid Background="{StaticResource WindowBackgroundBrush}">
+        <!-- Одна адаптивная панель-«карточка» по центру -->
+        <Border Margin="32"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Style="{StaticResource CardBorderStyle}"
+                Opacity="0.97">
             <StackPanel>
-                <TextBlock Text="Paint Receiver"
-                           FontSize="32"
-                           FontWeight="SemiBold" />
-                <TextBlock Text="Рисование с джойстиком и сохранением сессий"
-                           FontSize="16"
+                <!-- Заголовок и подзаголовок -->
+                <StackPanel Orientation="Horizontal">
+                    <Border Width="38"
+                            Height="38"
+                            CornerRadius="12"
+                            Background="{StaticResource AccentBrush}"
+                            VerticalAlignment="Top"
+                            Margin="0,0,12,0">
+                        <TextBlock Text="🎨"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   FontSize="18" />
+                    </Border>
+
+                    <StackPanel>
+                        <TextBlock Text="Paint Receiver"
+                                   FontSize="30"
+                                   FontWeight="SemiBold" />
+                        <TextBlock Text="Рисование с джойстиком и сохранением сессий"
+                                   FontSize="15"
+                                   Foreground="{StaticResource MutedTextBrush}"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
+                </StackPanel>
+
+                <TextBlock Text="Выберите режим и начните раскрашивать. Панели, управление и сессии будут сохранены — просто нажмите на режим, который подходит именно вам."
+                           FontSize="14"
+                           TextWrapping="Wrap"
                            Foreground="{StaticResource MutedTextBrush}"
-                           Margin="0,8,0,0" />
-            </StackPanel>
+                           Margin="0,16,0,0" />
 
-            <TextBlock Text="Выберите режим и начните раскрашивать. Все панели и управление сохраняются — нажмите на кнопку, чтобы открыть холст."
-                       FontSize="15"
-                       TextWrapping="Wrap"
-                       Foreground="{StaticResource MutedTextBrush}" />
+                <!-- Фичи приложения -->
+                <UniformGrid Columns="2"
+                             Rows="2"
+                             Margin="0,24,0,0"
+                             HorizontalAlignment="Stretch">
+                    <Border Style="{StaticResource PanelBorderStyle}" Margin="0,0,10,10">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FFF3F5FF" Offset="0" />
+                                <GradientStop Color="#FFE0E7FF" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel>
+                            <TextBlock Text="Режимы рисования"
+                                       Style="{StaticResource PanelSectionHeaderTextStyle}" />
+                            <TextBlock Text="Абсолютный и центрированный джойстик — выберите комфортный контроль курсора."
+                                       TextWrapping="Wrap"
+                                       Margin="0,6,0,0" />
+                        </StackPanel>
+                    </Border>
 
-            <UniformGrid Columns="2" Rows="2" Margin="0,18,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                <Border Style="{StaticResource PanelBorderStyle}" Margin="0,0,12,12">
-                    <StackPanel>
-                        <TextBlock Text="Режимы рисования"
-                                   Style="{StaticResource PanelSectionHeaderTextStyle}" />
-                        <TextBlock Text="Абсолютный и центрированный джойстик"
-                                   TextWrapping="Wrap"
-                                   Margin="0,6,0,0" />
-                    </StackPanel>
-                </Border>
+                    <Border Style="{StaticResource PanelBorderStyle}" Margin="10,0,0,10">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FFFDF4E5" Offset="0" />
+                                <GradientStop Color="#FFFDE7C6" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel>
+                            <TextBlock Text="Сохранение в БД"
+                                       Style="{StaticResource PanelSectionHeaderTextStyle}" />
+                            <TextBlock Text="Записывайте и пересматривайте сессии, отслеживайте прогресс и эксперименты."
+                                       TextWrapping="Wrap"
+                                       Margin="0,6,0,0" />
+                        </StackPanel>
+                    </Border>
 
-                <Border Style="{StaticResource PanelBorderStyle}" Margin="0,0,0,12">
-                    <StackPanel>
-                        <TextBlock Text="Сохранение в БД"
-                                   Style="{StaticResource PanelSectionHeaderTextStyle}" />
-                        <TextBlock Text="Записывайте и просматривайте сессии"
-                                   TextWrapping="Wrap"
-                                   Margin="0,6,0,0" />
-                    </StackPanel>
-                </Border>
+                    <Border Style="{StaticResource PanelBorderStyle}" Margin="0,10,10,0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FFE5FFF7" Offset="0" />
+                                <GradientStop Color="#FFCCF5E7" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel>
+                            <TextBlock Text="Цветовая палитра"
+                                       Style="{StaticResource PanelSectionHeaderTextStyle}" />
+                            <TextBlock Text="Готовые пресеты и аккуратные заливки для быстрой работы с цветом."
+                                       TextWrapping="Wrap"
+                                       Margin="0,6,0,0" />
+                        </StackPanel>
+                    </Border>
 
-                <Border Style="{StaticResource PanelBorderStyle}" Margin="0,0,12,0">
-                    <StackPanel>
-                        <TextBlock Text="Цветовая палитра"
-                                   Style="{StaticResource PanelSectionHeaderTextStyle}" />
-                        <TextBlock Text="Выбирайте цвета из готовых пресетов"
-                                   TextWrapping="Wrap"
-                                   Margin="0,6,0,0" />
-                    </StackPanel>
-                </Border>
+                    <Border Style="{StaticResource PanelBorderStyle}" Margin="10,10,0,0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FFF0EBFF" Offset="0" />
+                                <GradientStop Color="#FFE1D4FF" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel>
+                            <TextBlock Text="Подсказки по управлению"
+                                       Style="{StaticResource PanelSectionHeaderTextStyle}" />
+                            <TextBlock Text="Горячие клавиши и советы собраны в одном месте, чтобы не отвлекаться от рисунка."
+                                       TextWrapping="Wrap"
+                                       Margin="0,6,0,0" />
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
 
-                <Border Style="{StaticResource PanelBorderStyle}">
-                    <StackPanel>
-                        <TextBlock Text="Подсказки по управлению"
-                                   Style="{StaticResource PanelSectionHeaderTextStyle}" />
-                        <TextBlock Text="Все горячие клавиши собраны в одном месте"
-                                   TextWrapping="Wrap"
-                                   Margin="0,6,0,0" />
-                    </StackPanel>
-                </Border>
-            </UniformGrid>
+                <!-- Кнопки действий -->
+                <StackPanel Orientation="Horizontal" Margin="0,24,0,0">
+                    <Button Style="{StaticResource ElevatedButtonStyle}"
+                            Background="{StaticResource AccentBrush}"
+                            Padding="20,10"
+                            Click="OnStartClick"
+                            Margin="0,0,12,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Начать рисовать" FontSize="14" />
+                            <TextBlock Text="→" FontSize="16" Margin="8,0,0,0" />
+                        </StackPanel>
+                    </Button>
 
-            <StackPanel Orientation="Horizontal" Margin="0,18,0,0" Spacing="12">
-                <Button Style="{StaticResource ElevatedButtonStyle}"
-                        Background="{StaticResource AccentBrush}"
-                        Padding="20,10"
-                        Click="OnStartClick">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Начать рисовать" FontSize="14" />
-                        <TextBlock Text="→" FontSize="16" Margin="8,0,0,0" />
-                    </StackPanel>
-                </Button>
+                    <Button Style="{StaticResource ElevatedButtonStyle}"
+                            Background="#FF7043"
+                            Padding="20,10"
+                            Click="OnStartTimedClick"
+                            Margin="0,0,12,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Игра на время" FontSize="14" />
+                            <TextBlock Text="⏱" FontSize="16" Margin="8,0,0,0" />
+                        </StackPanel>
+                    </Button>
 
-                <Button Style="{StaticResource ElevatedButtonStyle}"
-                        Background="#FF7043"
-                        Padding="20,10"
-                        Click="OnStartTimedClick">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Игра на время" FontSize="14" />
-                        <TextBlock Text="⏱" FontSize="16" Margin="8,0,0,0" />
-                    </StackPanel>
-                </Button>
-
-                <Border Background="#EFF3FB"
-                        Padding="12,8"
-                        CornerRadius="10"
-                        VerticalAlignment="Center">
-                    <TextBlock Text="Можно вернуться в меню в любой момент"
-                               Foreground="{StaticResource MutedTextBrush}" />
-                </Border>
-            </StackPanel>
-        </StackPanel>
-
-        <Border Grid.Column="1"
-                Background="#FBFCFF"
-                CornerRadius="28"
-                Padding="24"
-                Effect="{StaticResource MediumShadow}"
-                VerticalAlignment="Center">
-            <StackPanel>
-                <TextBlock Text="Что доступно на холсте"
-                           FontSize="18"
-                           FontWeight="SemiBold" />
-                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                    <Ellipse Width="14" Height="14" Fill="{StaticResource AccentBrush}" />
-                    <TextBlock Text="Контур и образец рисунка рядом" FontSize="14" Margin="12,0,0,0" />
+                    <Border Background="#EFF3FB"
+                            Padding="12,8"
+                            CornerRadius="10"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="В любой момент можно вернуться в меню — прогресс сессии сохранится."
+                                   Foreground="{StaticResource MutedTextBrush}"
+                                   FontSize="12" />
+                    </Border>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                    <Ellipse Width="14" Height="14" Fill="#9C27B0" />
-                    <TextBlock Text="Палитра и режимы джойстика справа" FontSize="14" Margin="12,0,0,0" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                    <Ellipse Width="14" Height="14" Fill="#00BCD4" />
-                    <TextBlock Text="Подсказки и горячие клавиши слева" FontSize="14" Margin="12,0,0,0" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                    <Ellipse Width="14" Height="14" Fill="#4CAF50" />
-                    <TextBlock Text="Запись/воспроизведение сессий внизу" FontSize="14" Margin="12,0,0,0" />
+
+                <!-- Разделитель внутри одной панели -->
+                <Separator Margin="0,28,0,20"
+                           Opacity="0.4" />
+
+                <!-- Краткий обзор холста как часть той же карточки -->
+                <StackPanel>
+                    <TextBlock Text="Что доступно на холсте"
+                               FontSize="18"
+                               FontWeight="SemiBold" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
+                        <Ellipse Width="14" Height="14" Fill="{StaticResource AccentBrush}" />
+                        <TextBlock Text="Контур и образец рисунка рядом — удобно сравнивать и заполнять."
+                                   FontSize="14"
+                                   Margin="12,0,0,0" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                        <Ellipse Width="14" Height="14" Fill="#9C27B0" />
+                        <TextBlock Text="Палитра и режимы джойстика справа, всегда под рукой."
+                                   FontSize="14"
+                                   Margin="12,0,0,0" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                        <Ellipse Width="14" Height="14" Fill="#00BCD4" />
+                        <TextBlock Text="Подсказки и горячие клавиши слева, чтобы не искать их в справке."
+                                   FontSize="14"
+                                   Margin="12,0,0,0" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                        <Ellipse Width="14" Height="14" Fill="#4CAF50" />
+                        <TextBlock Text="Запись и воспроизведение сессий внизу — идеальны для анализа и обучения."
+                                   FontSize="14"
+                                   Margin="12,0,0,0" />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </Border>
