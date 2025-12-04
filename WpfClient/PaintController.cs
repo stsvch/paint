@@ -596,6 +596,20 @@ public sealed class PaintController : IDisposable
         }
     }
 
+    public void PrepareForTimedGame()
+    {
+        _engine.ClearAll();
+        _viewModel.UpdateImages(_engine);
+        _viewModel.SelectedColorIndex = 0;
+        ResetCursor();
+        _viewModel.StatusMessage = "Игра на время: раскрасьте по образцу";
+    }
+
+    public bool IsCanvasMatchingReference()
+    {
+        return _engine.IsFilledCorrectly();
+    }
+
 
     public async Task StartPlaybackAsync(int sessionId)
     {

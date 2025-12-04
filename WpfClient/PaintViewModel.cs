@@ -37,6 +37,13 @@ public sealed class PaintViewModel : INotifyPropertyChanged
     private PaintController? _controller;
     private double _playbackProgress;
     private JoystickMode _joystickMode = JoystickMode.Absolute;
+    private readonly TimeSpan _timedGameDuration = TimeSpan.FromSeconds(60);
+    private readonly DispatcherTimer _timedGameTimer = new();
+    private TimeSpan _timedGameRemaining;
+    private bool _isTimedGameRunning;
+    private bool _isTimedGameFinished;
+    private string _timedGameStatusText = string.Empty;
+    private string _timedGameTimerText = string.Empty;
 
     public PaintViewModel()
     {
@@ -47,6 +54,9 @@ public sealed class PaintViewModel : INotifyPropertyChanged
         CursorInnerLeft = _cursorX - 2;
         CursorInnerTop = _cursorY - 2;
         SelectedColorIndex = 0;
+
+        _timedGameTimer.Interval = TimeSpan.FromSeconds(1);
+        _timedGameTimer.Tick += (_, _) => OnTimedGameTick();
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -253,6 +263,44 @@ public sealed class PaintViewModel : INotifyPropertyChanged
 
     public string ConnectionStatus => IsSerialConnected ? "Устройство подключено" : "Ожидание устройства";
 
+    public bool IsTimedGameVisible => _isTimedGameRunning || _isTimedGameFinished;
+
+    public bool IsTimedGameRunning
+    {
+        get => _isTimedGameRunning;
+        private set
+        {
+            if (SetField(ref _isTimedGameRunning, value))
+            {
+                OnPropertyChanged(nameof(IsTimedGameVisible));
+            }
+        }
+    }
+
+    private bool IsTimedGameFinished
+    {
+        get => _isTimedGameFinished;
+        set
+        {
+            if (SetField(ref _isTimedGameFinished, value))
+            {
+                OnPropertyChanged(nameof(IsTimedGameVisible));
+            }
+        }
+    }
+
+    public string TimedGameTimerText
+    {
+        get => _timedGameTimerText;
+        private set => SetField(ref _timedGameTimerText, value);
+    }
+
+    public string TimedGameStatusText
+    {
+        get => _timedGameStatusText;
+        private set => SetField(ref _timedGameStatusText, value);
+    }
+
     public PaintController? Controller
     {
         get => _controller;
@@ -394,6 +442,82 @@ public sealed class PaintViewModel : INotifyPropertyChanged
         }
     }
 
+    public void StartTimedGame()
+    {
+        if (_controller == null)
+        {
+            return;
+        }
+
+        _controller.PrepareForTimedGame();
+        _timedGameRemaining = _timedGameDuration;
+        TimedGameTimerText = FormatTime(_timedGameRemaining);
+        TimedGameStatusText = "Раскрасьте как на образце, пока идет таймер";
+        StatusMessage = "Игра на время запущена";
+        IsTimedGameRunning = true;
+        IsTimedGameFinished = false;
+        _timedGameTimer.Start();
+    }
+
+    public void CancelTimedGame()
+    {
+        _timedGameTimer.Stop();
+        IsTimedGameRunning = false;
+        IsTimedGameFinished = false;
+        TimedGameStatusText = string.Empty;
+        TimedGameTimerText = string.Empty;
+    }
+
+    private void CompleteTimedGame(bool success, string message)
+    {
+        _timedGameTimer.Stop();
+        IsTimedGameRunning = false;
+        IsTimedGameFinished = true;
+        var prefix = success ? "🎉 " : "⌛ ";
+        TimedGameStatusText = prefix + message;
+        StatusMessage = prefix + message;
+    }
+
+    private void OnTimedGameTick()
+    {
+        if (!IsTimedGameRunning)
+        {
+            return;
+        }
+
+        _timedGameRemaining -= TimeSpan.FromSeconds(1);
+        if (_timedGameRemaining < TimeSpan.Zero)
+        {
+            _timedGameRemaining = TimeSpan.Zero;
+        }
+
+        TimedGameTimerText = FormatTime(_timedGameRemaining);
+
+        if (_timedGameRemaining == TimeSpan.Zero)
+        {
+            var success = _controller?.IsCanvasMatchingReference() ?? false;
+            var resultText = success
+                ? "Отлично! Все области совпали с образцом"
+                : "Время вышло. Попробуйте ещё раз";
+            CompleteTimedGame(success, resultText);
+        }
+    }
+
+    private void EvaluateTimedGameProgress()
+    {
+        if (!IsTimedGameRunning)
+        {
+            return;
+        }
+
+        if (_controller?.IsCanvasMatchingReference() == true)
+        {
+            CompleteTimedGame(true, "Готово! Раскраска совпала с образцом до окончания таймера");
+        }
+    }
+
+    private static string FormatTime(TimeSpan value) => $"{value.Minutes:D2}:{value.Seconds:D2}";
+
     public void UpdatePicture(PaintEngine engine)
     {
         PictureKey = engine.Drawing.Key;
@@ -428,6 +552,8 @@ public sealed class PaintViewModel : INotifyPropertyChanged
         }
 
         OnPropertyChanged(nameof(FilledCount));
+
+        EvaluateTimedGameProgress();
     }
 
     private bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)

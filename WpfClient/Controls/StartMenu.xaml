@@ -71,7 +71,7 @@
                 </Border>
             </UniformGrid>
 
-            <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+            <StackPanel Orientation="Horizontal" Margin="0,18,0,0" Spacing="12">
                 <Button Style="{StaticResource ElevatedButtonStyle}"
                         Background="{StaticResource AccentBrush}"
                         Padding="20,10"
@@ -82,10 +82,19 @@
                     </StackPanel>
                 </Button>
 
+                <Button Style="{StaticResource ElevatedButtonStyle}"
+                        Background="#FF7043"
+                        Padding="20,10"
+                        Click="OnStartTimedClick">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Игра на время" FontSize="14" />
+                        <TextBlock Text="⏱" FontSize="16" Margin="8,0,0,0" />
+                    </StackPanel>
+                </Button>
+
                 <Border Background="#EFF3FB"
                         Padding="12,8"
                         CornerRadius="10"
-                        Margin="12,0,0,0"
                         VerticalAlignment="Center">
                     <TextBlock Text="Можно вернуться в меню в любой момент"
                                Foreground="{StaticResource MutedTextBrush}" />

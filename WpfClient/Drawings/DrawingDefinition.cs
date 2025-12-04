@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
@@ -24,6 +25,8 @@ public abstract class DrawingDefinition
     public abstract string DisplayName { get; }
 
     public Size BaseSize { get; } = new(AppConfig.ReferenceSize, AppConfig.ReferenceSize);
+
+    public abstract IReadOnlyDictionary<string, Color> ReferenceColors { get; }
 
     public abstract void DrawReference(DrawingContext context);
 
