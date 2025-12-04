@@ -39,6 +39,31 @@ public sealed class PaintEngine
         }
     }
 
+    public bool IsFilledCorrectly()
+    {
+        var reference = Drawing.ReferenceColors;
+
+        if (reference.Count != _filledFigures.Count)
+        {
+            return false;
+        }
+
+        foreach (var (name, referenceColor) in reference)
+        {
+            if (!_filledFigures.TryGetValue(name, out var filledColor))
+            {
+                return false;
+            }
+
+            if (!ColorsAreEqual(referenceColor, filledColor))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public ImageSource CreateReferenceImage()
     {
         // Используем RenderTargetBitmap для более быстрого рендеринга
@@ -140,6 +165,11 @@ public sealed class PaintEngine
     {
         Drawing = drawing;
         ClearAll();
+    }
+
+    private static bool ColorsAreEqual(Color left, Color right)
+    {
+        return left.R == right.R && left.G == right.G && left.B == right.B;
     }
 
 }

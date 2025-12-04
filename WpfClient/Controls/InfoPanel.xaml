@@ -54,6 +54,27 @@
                            Foreground="#2C6333" />
             </Border>
 
+            <Border Background="#FFF3E0"
+                    CornerRadius="12"
+                    Padding="12"
+                    Margin="0,12,0,0"
+                    Visibility="{Binding IsTimedGameVisible, Converter={StaticResource BoolToVisibility}}">
+                <StackPanel>
+                    <TextBlock Text="Игра на время"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,6" />
+                    <TextBlock Text="{Binding TimedGameTimerText}"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="#FF7043" />
+                    <TextBlock Text="{Binding TimedGameStatusText}"
+                               TextWrapping="Wrap"
+                               FontSize="13"
+                               Margin="0,6,0,0" />
+                </StackPanel>
+            </Border>
+
         </StackPanel>
     </Border>
 </UserControl>

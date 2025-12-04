@@ -6,9 +6,22 @@ namespace WpfClient.Drawings;
 
 public sealed class HumanDrawing : DrawingDefinition
 {
+    private static readonly IReadOnlyDictionary<string, Color> ReferenceColorsCache =
+        new Dictionary<string, Color>
+        {
+            ["head"] = Color.FromRgb(255, 255, 0),
+            ["body"] = Color.FromRgb(0, 0, 255),
+            ["left_arm"] = Color.FromRgb(255, 0, 0),
+            ["right_arm"] = Color.FromRgb(255, 0, 0),
+            ["left_leg"] = Color.FromRgb(0, 255, 0),
+            ["right_leg"] = Color.FromRgb(0, 255, 0)
+        };
+
     public override string Key => "human";
 
     public override string DisplayName => "Человечек";
+
+    public override IReadOnlyDictionary<string, Color> ReferenceColors => ReferenceColorsCache;
 
     public override void DrawReference(DrawingContext context)
     {

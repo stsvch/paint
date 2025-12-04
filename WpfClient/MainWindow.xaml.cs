@@ -14,11 +14,19 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    private void OnStartRequested(object sender, EventArgs e)
+    private void OnStartRequested(object sender, StartRequestedEventArgs e)
     {
         if (DataContext is PaintViewModel viewModel)
         {
             viewModel.IsMenuVisible = false;
+            if (e.Mode == StartMode.TimedGame)
+            {
+                viewModel.StartTimedGame();
+            }
+            else
+            {
+                viewModel.CancelTimedGame();
+            }
         }
     }
 
@@ -33,6 +41,7 @@ public partial class MainWindow : Window
             }
 
             viewModel.IsPlaying = false;
+            viewModel.CancelTimedGame();
             viewModel.IsMenuVisible = true;
         }
     }
